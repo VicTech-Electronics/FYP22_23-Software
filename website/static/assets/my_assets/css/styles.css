@@ -1,0 +1,66 @@
+#heading{
+    color: #fff;
+    font-weight: bolder;
+    font-family: sans-serif;
+    text-decoration: none;
+}
+
+.links{
+    color: grey;
+}
+
+.links:hover{
+    color: #fff;
+    text-decoration: none;
+}
+
+.debug_msg{
+    color: #800000;
+}
+
+.info_msg{
+    color: #2d7dd9;
+}
+
+.success_msg{
+    color: #008000;
+}
+
+.warning_msg{
+    color: #ffa500;
+}
+
+.error_msg{
+    color: #ff0000;
+}
+
+/* Table styles */
+table{
+    width: 100%;
+    text-align: center;
+
+}
+
+thead{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+tbody{
+    font-size: 18px;
+}
+
+.payment_status {
+    width: 50%; 
+    height: 15px;
+    margin-left: 25%;
+    border-radius: 20px;
+}
+
+.payed {
+    background-color: green;
+}
+
+.unpayed {
+    background-color: red;
+}

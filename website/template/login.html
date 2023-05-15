@@ -1,42 +1,73 @@
-{% extends 'admin.html' %}
 {% load static %}
-{% block page_title %}
-    <title>Login</title>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'assets/images/dit_logo.jpg' %}" />
+    <link rel="stylesheet" href="{% static 'assets/my_assets/css/styles.css' %}">
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+            <div class="card col-lg-4 mx-auto">
+              <div class="card-body px-5 py-5">
+                <h3 class="card-title text-left mb-3">Login</h3>
 
-{% block links %}
-    <link rel="stylesheet" href="{% static 'css/admin_page.css' %}">
-    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
-{% endblock %}
-
-
-{% block details %}
-<div class="login_form">
-    <center>
-        <h2 id="form_title">Login Form</h2>
-        <form action="{% url 'login' %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="username" placeholder="Username"><br>
-            <input type="password" name="password" placeholder="Password"><br>
-            <input id="form_btn" type="submit" value="Login"><br><br>
-
-            {% for message in messages %}
-                <p class="{{message.logs}}">{{message}}</p>
-            {% endfor %}
-
-            You don't have an account.? <br>
-            Request: <a href="{% url 'register' %}">Registration.</a>
-        </form>
-    </center>
-</div>
-{% endblock %}
-
-
-<!-- These block remain empty since this is login page does not these Informations -->
-{% block username %}{% endblock %}  
-{% block logout_link %}{% endblock %}       
-{% block page_status %}{% endblock %}
-{% block form %}
-{% endblock %}
-{% block views %}
-{% endblock %}
+                <form action="{% url 'login' %}" method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control p_input" name="username" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control p_input" name="password" required>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
+                  </div>
+                  {% for message in messages %}
+                    <p class="{{message.tags}}">{{message}}</p>
+                  {% endfor %}
+                  <p class="sign-up">For office use only.</p>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+        </div>
+        <!-- row ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
+    <script src="{% static 'assets/js/settings.js' %}"></script>
+    <script src="{% static 'assets/js/todolist.js' %}"></script>
+    <!-- endinject -->
+  </body>
+</html>
