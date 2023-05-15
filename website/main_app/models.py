@@ -1,36 +1,46 @@
-from pyexpat import model
+from tkinter import CASCADE
+from turtle import title
 from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Customer(models.Model):
+class Device(models.Model):
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
-    card_number = models.CharField(max_length=10)
-    amount = models.FloatField(default=0.0)
+    device_id = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.user.username
+        return self.user.username + ' (' + self.device_id + ')'
 
-class Transaction(models.Model):
-    customer = models.ForeignKey(Customer, null=False, on_delete=models.CASCADE)
-    details = models.CharField(
-        max_length=10,
+class Report(models.Model):
+    device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    content = models.CharField(max_length=500)
+    date_time = models.DateTimeField(auto_now=True)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    def __str__(self):
+        return self.title
+
+class Call(models.Model):
+    device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
+    phone = models.IntegerField()
+    date_time = models.DateTimeField(auto_now=True)
+    response = models.BooleanField(
         choices=[
-            ('urination', 'Urination'),
-            ('defecation', 'Defecation'),
-            ('shower', 'Shower')
+            (True, 'Accepted'),
+            (False, 'Missed'),
         ]
     )
-    amount = models.FloatField()
+
+    def __str__(self):
+        return str(self.phone)
+
+class Message(models.Model):
+    device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
+    phone = models.IntegerField()
+    content = models.TextField()
     date_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.customer.user.username
-
-class Expenses(models.Model):
-    details = models.TextField()
-    amount = models.FloatField()
-    date_time = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.details
+        return str(self.phone)

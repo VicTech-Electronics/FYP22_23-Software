@@ -1,340 +1,118 @@
-﻿{% load static %}
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Collective Admin Panel a Flat Bootstrap Responsive Website Template | Home :: W3Layouts</title>
+  <title>DIT Project 2022/23</title>
+  <meta content="" name="description">
 
-  <!-- Template CSS -->
-  <link rel="stylesheet" href="{% static 'css/style-starter.css' %}">
+  <meta content="" name="keywords">
 
-  <!-- google fonts -->
-  <link href="//fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: FlexStart - v1.11.1
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
-<body class="sidebar-menu-collapsed">
-  <div class="se-pre-con"></div>
-<section>
-  <!-- sidebar menu start -->
-  <div class="sidebar-menu sticky-sidebar-menu">
+<body>
 
-    <!-- logo start -->
-    <div class="logo">
-      <h1><a href="index.html">Collective</a></h1>
-    </div>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-  <!-- if logo is image enable this -->
-    <!-- image logo -->
-    <div class="logo">
-      <a href="index.html">
-        <!-- <img src="image-path" alt="Your logo" title="Your logo" class="img-fluid" style="height:35px;" /> -->
+      <a href="{% url 'home' %}" class="logo d-flex align-items-center">
+        <span>GEE Oil Secure</span>
       </a>
-    </div>
-    <!-- //image logo -->
 
-    <div class="logo-icon text-center">
-      <a href="{% url 'home' %}" title="logo"><img src="{% static 'images/logo.png' %}" alt="logo-icon"> </a>
-    </div>
-    <!-- //logo end -->
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
+          {% block get_stated %}
+            <li><a class="getstarted scrollto" href="{% url 'account' detail='null' %}">Get Started</a></li>
+          {% endblock %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
 
-    <div class="sidebar-menu-inner">
-
-      <!-- sidebar nav start -->
-      <ul class="nav nav-pills nav-stacked custom-nav">
-        <li class="active"><a href="{% url 'home' %}"><i class="fa fa-tachometer"></i><span> Dashboard</span></a></li>
-      </ul>
-      <!-- //sidebar nav end -->
-      <!-- toggle button start -->
-      <a class="toggle-btn">
-        <i class="fa fa-angle-double-left menu-collapsed__left"><span>Collapse Sidebar</span></i>
-        <i class="fa fa-angle-double-right menu-collapsed__right"></i>
-      </a>
-      <!-- //toggle button end -->
     </div>
-  </div>
-  <!-- //sidebar menu end -->
-  <!-- header-starts -->
-  
-  <div class="header sticky-header">
-    {% block notification_menu %}
-    <!-- notification menu start -->
-    <div class="menu-right">
-      <div class="navbar user-panel-top">
-        <div class="user-dropdown-details d-flex"> 
-          <div class="profile_details">
-            <ul>
-              <li class="dropdown profile_details_drop">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu3" aria-haspopup="true"
-                  aria-expanded="false">
-                  <div class="profile_img">
-                    <img src="{% static 'images/profileimg.jpg' %}" class="rounded-circle" alt="" />
-                    <div class="user-active">
-                      <span></span>
-                    </div>
-                  </div>
-                </a>
-                <ul class="dropdown-menu drp-mnu" aria-labelledby="dropdownMenu3">
-                  <li class="user-info">
-                    <h5 class="user-name">{{User}}</h5>
-                    <span class="status ml-2">Available</span>
-                  </li>
-                  <li> <a href="{% url 'register' %}"><i class="lnr lnr-heart"></i>New Registration</a> </li>
-                  <li class="logout"> <a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a> </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--notification menu end -->
-    {% endblock %}
-  </div>
-  <!-- //header-ends -->
-  <!-- main content start -->
-<div class="main-content">
-{% block contents %}
-  <!-- content -->
-  <div class="container-fluid content-top-gap">
-    <div class="welcome-msg pt-3 pb-4">
-      <h1><span class="text-primary">{{user}}</span>, Account panel</h1>
-      
-      {% for message in messages %}
-        <p class="{{message.tags}}">{{message}}</p>
-      {% endfor %}
+  </header><!-- End Header -->
 
-      <p>Safe service and reliable.</p>
-    </div>
+  <!-- ======= Hero Section ======= -->
+  {% block content %}
+  <section id="hero" class="hero d-flex align-items-center">
 
-    <!-- statistics data -->
-    <div class="statistics">
+    <div class="container">
       <div class="row">
-        <div class="col-xl-6 pr-xl-2">
-          <div class="row">
-            <div class="col-sm-6 pr-sm-2 statistics-grid">
-              <div class="card card_border border-primary-top p-4">
-                <i class="lnr lnr-users"> </i>
-                <h3 class="text-secondary number">{{data.no_of_customers}}</h3>
-                <p class="stat-text">Customers</p>
-              </div>
-            </div>
-            <div class="col-sm-6 pl-sm-2 statistics-grid">
-              <div class="card card_border border-primary-top p-4">
-                <i class="lnr lnr-eye"> </i>
-                <h3 class="text-primary number">{{data.revenue}}</h3>
-                <p class="stat-text">Revenue</p>
-              </div>
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">We offer modern solutions for growing your business</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with Bootstrap</h2>
+          <div data-aos="fade-up" data-aos-delay="600">
+            <div class="text-center text-lg-start">
+              <a href="{% url 'account' detail='null' %}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                <span>Get Started</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
             </div>
           </div>
         </div>
-        <div class="col-xl-6 pl-xl-2">
-          <div class="row">
-            <div class="col-sm-6 pr-sm-2 statistics-grid">
-              <div class="card card_border border-primary-top p-4">
-                <i class="lnr lnr-cloud-download"> </i>
-                <h3 class="text-danger number">{{data.expenses}}</h3>
-                <p class="stat-text">Expenses</p>
-              </div>
-            </div>
-            <div class="col-sm-6 pl-sm-2 statistics-grid">
-              <div class="card card_border border-primary-top p-4">
-                <i class="lnr lnr-cart"> </i>
-                <h3 class="text-success number">{{data.profit}}</h3>
-                <p class="stat-text">Profit</p>
-              </div>
-            </div>
-          </div>
+        <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+          <img src="{% static 'img/truck2.png' %}" class="img-fluid" alt="">
         </div>
       </div>
     </div>
-    <!-- //statistics data -->
+  </section><!-- End Hero -->
+  {% endblock %}
 
-    <!-- charts -->
-    <div class="chart">
-      <div class="row">
-        <div class="col-lg-6 pr-lg-2 chart-grid">
-          <div class="card text-center card_border">
-            <div class="card-header chart-grid__header">
-              Income summary
-            </div>
-            <div class="card-body">
-              <!-- bar chart -->
-              <div id="container">
-                <canvas id="barchart"></canvas>
-              </div>
-              <!-- //bar chart -->
-            </div>
-            <div class="card-footer text-muted chart-grid__footer">
-              To update informations, Refresh the page
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 pl-lg-2 chart-grid">
-          <div class="card text-center card_border">
-            <div class="card-header chart-grid__header">
-              Requirement summary
-            </div>
-            <div class="card-body">
-              <!-- line chart -->
-              <div id="container">
-                <canvas id="linechart"></canvas>
-              </div>
-              <!-- //line chart -->
-            </div>
-            <div class="card-footer text-muted chart-grid__footer">
-              To update informations, Refresh the page
-            </div>
-          </div>
-        </div>
+  <hr>
+
+  </main><!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>DIT</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Designed by <a href="#">Neema Patrick</a>
       </div>
     </div>
-    <!-- //charts -->
-  </div>
-{% endblock %}
-</div>
+  </footer><!-- End Footer -->
 
-  <!--footer section start-->
-<footer class="dashboard">
-  <p>&copy 2023 DIT. All Rights Reserved | Design by <a href="#" target="_blank"
-      class="text-primary">Nasibu Kassim</a></p>
-</footer>
-<!--footer section end-->
-<!-- move top -->
-<button onclick="topFunction()" id="movetop" class="bg-primary" title="Go to top">
-  <span class="fa fa-angle-up"></span>
-</button>
-<script>
-  // When the user scrolls down 20px from the top of the document, show the button
-  window.onscroll = function () {
-    scrollFunction()
-  };
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      document.getElementById("movetop").style.display = "block";
-    } else {
-      document.getElementById("movetop").style.display = "none";
-    }
-  }
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
 
-  // When the user clicks on the button, scroll to the top of the document
-  function topFunction() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  }
-</script>
-<!-- /move top -->
-
-
-<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
-
-<!-- chart js -->
-<script src="{% static 'js/Chart.min.js' %}"></script>
-<script src="{% static 'js/utils.js' %}"></script>
-<!-- //chart js -->
-
-<!-- Different scripts of charts.  Ex.Barchart, Linechart -->
-<script>
-  var transactions = JSON.parse('{{informations.transactions|safe}}');
-  var demands = JSON.parse('{{informations.demands|safe}}');
-
-  var urinations = [
-    demands[0][1]['urination'], 
-    demands[1][2]['urination'],
-    demands[2][3]['urination'], 
-    demands[3][4]['urination'],
-    demands[4][5]['urination'], 
-    demands[5][6]['urination'],
-    demands[6][7]['urination'], 
-    demands[7][8]['urination'],
-    demands[8][9]['urination'], 
-    demands[9][10]['urination'],
-    demands[10][11]['urination'], 
-    demands[11][12]['urination'],
-  ]
-
-  var defecations = [
-    demands[0][1]['defecation'], 
-    demands[1][2]['defecation'],
-    demands[2][3]['defecation'], 
-    demands[3][4]['defecation'],
-    demands[4][5]['defecation'], 
-    demands[5][6]['defecation'],
-    demands[6][7]['defecation'], 
-    demands[7][8]['defecation'],
-    demands[8][9]['defecation'], 
-    demands[9][10]['defecation'],
-    demands[10][11]['defecation'], 
-    demands[11][12]['defecation'],
-  ]
-
-  var showers = [
-    demands[0][1]['shower'], 
-    demands[1][2]['shower'],
-    demands[2][3]['shower'], 
-    demands[3][4]['shower'],
-    demands[4][5]['shower'], 
-    demands[5][6]['shower'],
-    demands[6][7]['shower'], 
-    demands[7][8]['shower'],
-    demands[8][9]['shower'], 
-    demands[9][10]['shower'],
-    demands[10][11]['shower'], 
-    demands[11][12]['shower'],
-  ]
-</script>
-
-<script src="{% static 'js/bar.js' %}"></script>
-<script src="{% static 'js/linechart.js' %}"></script>
-<!-- //Different scripts of charts.  Ex.Barchart, Linechart -->
-
-
-<script src="{% static 'js/jquery.nicescroll.js' %}"></script>
-<script src="{% static 'js/scripts.js' %}"></script>
-
-<!-- close script -->
-<script>
-  var closebtns = document.getElementsByClassName("close-grid");
-  var i;
-
-  for (i = 0; i < closebtns.length; i++) {
-    closebtns[i].addEventListener("click", function () {
-      this.parentElement.style.display = 'none';
-    });
-  }
-</script>
-<!-- //close script -->
-
-<!-- disable body scroll when navbar is in active -->
-<script>
-  $(function () {
-    $('.sidebar-menu-collapsed').click(function () {
-      $('body').toggleClass('noscroll');
-    })
-  });
-</script>
-<!-- disable body scroll when navbar is in active -->
-
- <!-- loading-gif Js -->
- <script src="{% static 'js/modernizr.js' %}"></script>
- <script>
-     $(window).load(function () {
-         // Animate loader off screen
-         $(".se-pre-con").fadeOut("slow");;
-     });
- </script>
- <!--// loading-gif Js -->
-
-<!-- Bootstrap Core JavaScript -->
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
 
 </body>
-
 </html>
-  

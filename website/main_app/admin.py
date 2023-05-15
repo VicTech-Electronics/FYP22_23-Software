@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
-admin.site.register(Customer)
-admin.site.register(Transaction)
-admin.site.register(Expenses)
+admin.site.register(Device)
+admin.site.register(Report)
+admin.site.register(Call)
+admin.site.register(Message)
