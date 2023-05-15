@@ -1,0 +1,19 @@
+.heading {
+    color: #4eccd0;
+    font-size: 50px;
+    padding: 0;
+    margin: 0;
+    text-decoration: wavy;
+    text-shadow: 2px 2px 3px black;
+}
+
+.button {
+    height: 50px;
+    width: 150px;
+    margin-bottom: 50px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: blue;
+    text-shadow: 2px 2px 4px black;
+}
