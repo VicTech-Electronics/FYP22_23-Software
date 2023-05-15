@@ -1,0 +1,40 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} Registration Page {% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'assets/css/forms.css' %}">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block data %} {% endblock %} 
+{% block content %}
+    <div class="auth_form">
+        <div class="side_img">
+            <img src="{% static 'assets/img/car.jpeg' %}" alt="Login_IMG">
+        </div>
+        <div id="reg_form" class="side_form">
+            <center>
+                <form action="{% url 'user_reg' %}" method="post">
+                    {% csrf_token %}
+                    <h1>Customer Registration</h1>
+                    <input type="text" name="username" placeholder=" Username (will be Login ID)" required><br>
+                    <input type="text" name="vehicle_number" placeholder=" Vehicle number (eg. T123-ABC)" required>
+                    <input type="tel" name="phone1" placeholder=" Phone (eg. +255....)" required>
+                    <input type="tel" name="phone2" placeholder=" Other phone (eg. +255....)">
+                    <input type="password" name="password1" placeholder=" Password" required>
+                    <input type="password" name="password2" placeholder=" Comfirm password" required> <br>
+                    <input type="checkbox" name="check" style="width: 20px; height: 20px;"> I have another registered Vehicle <br>
+                    <input id="submit_btn" type="submit" value="Register">
+                </form>
+
+                {% for message in messages %}
+                    <p class="{{message.tags}}">{{message}}</p>
+                {% endfor %}
+
+                Allread have an Account: <a href="{% url 'login' %}">Login</a>
+            </center>
+        </div>
+    </div>
+    
+{% endblock %}

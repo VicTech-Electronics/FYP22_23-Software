@@ -1,0 +1,99 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} Location {% endblock %}
+{% block styles %}
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/map_style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block home %} 
+    <h1 class="logo me-auto">
+        <a href="{% url 'dashboard' %}">
+            Rescuer
+        </a>
+    </h1>
+{% endblock %}
+{% block content %}
+    <!-- Informations above the map -->
+    <div class="heading">
+        <div class="info">
+            <table>
+                <h4 class="heading_header">Accident Location Informations</h4>
+                <tr>
+                    <th>Country: </th>
+                    <td>{{accident.country}}</td>
+                </tr>
+        
+                <tr>
+                    <th>City: </th>
+                    <td>{{accident.city}}</td>
+                </tr>
+        
+                <tr>
+                    <th>Region: </th>
+                    <td>{{accident.region}}</td>
+                </tr>
+        
+                <tr>
+                    <th>Ward: </th>
+                    <td>{{accident.staddress}}</td>
+                </tr>
+        
+                <tr>
+                    <th>Street: </th>
+                    <td>{{accident.poi.addr_subward}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="calc">
+            <h4 class="heading_header">Options</h4>
+            <span>
+                Type of map:
+                <select name="map_type_id" id="map_type_id">
+                    <option value="ROAD">Road map</option>
+                    <option value="SATELLITE">Satellite map</option>
+                    <option value="HYBRID">Hybrid map</option>
+                    <option value="TERRAIN">Terrain map</option>
+                </select>
+            </span>
+            <br>
+            <span>
+                Travelling Mode:
+                <select name="traveling_mode" id="traveling_mode">
+                    <option value="DRIVING">Driving</option>
+                    <option value="WALKING">Walking</option>
+                    <option value="BYCYCLING">Bycycling</option>
+                    <option value="TRANSIT">Transit</option>
+                </select>
+            </span>
+            <br>
+            <a id="select" onclick="calcRoute()">Select</a>
+        </div>
+    </div>
+
+    
+    <!-- Map container -->
+    <p id="map"></p>
+
+    <!-- Google map API link -->
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrzIe3qsgw_1IjxbUj2skzr2_yJH9wKm0&callback=initMap">
+    </script>
+
+    <script>
+        // Center location informations
+        var center_country = '{{information.country}}';
+        var center_city = '{{information.city}}';
+        var center_region = '{{information.regionName}}';
+        var center_lat = '{{information.lat}}';
+        var center_lng = '{{information.lon}}';
+
+        // Accident location informations
+        var accident_country = '{{accident.country}}';
+        var accident_city = '{{accident.city}}';
+        var accident_region = '{{accident.region}}';
+        var accident_ward = '{{accident.staddress}}';
+        var accident_lat = '{{accident.latt}}';
+        var accident_lng = '{{accident.longt}}';
+    </script>
+    <script src="{% static 'assets/js/map_script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %}Login Page{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'assets/css/forms.css' %}">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block data %} {% endblock %} 
+{% block content %}
+    <div class="auth_form">
+        <div class="side_img">
+            <img src="{% static 'assets/img/ambulance.jpeg' %}" alt="Login_IMG">
+        </div>
+        <div class="side_form" style="margin-top: 120px;">
+            <center>
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <h1>Login</h1>
+                    <input type="text" name="username" placeholder=" Login ID" required><br>
+                    <input type="password" name="password" placeholder=" Password" required><br>
+                    <input id="submit_btn" type="submit" value="LOGIN">
+                </form>
+                
+                {% for message in messages %}
+                    <p class="{{message.tags}}">{{message}}</p>
+                {% endfor %}
+
+                Don't have an account? <br>
+                Customer registration click: <a href="{% url 'user_reg' %}">Here</a> <br>
+                Hospital registration click: <a href="{% url 'hospital_reg' %}">Here</a>
+            </center>
+        </div>
+    </div>
+{% endblock %}
