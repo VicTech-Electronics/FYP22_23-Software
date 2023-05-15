@@ -1,0 +1,167 @@
+body{
+    color: #3d3d3f;
+    padding: 0;
+    margin: 0;
+    background-color: #ecf3f9;
+    font-family: sans-serif;
+}
+
+a{
+    color: #5050b9;
+    text-decoration: none;
+}
+
+/* Styling of Title bar  */
+.heading{
+    color: white;
+    height: 60px;
+    background-color: #3d3251;
+}
+
+.title{
+    position: absolute;
+    left: 50px;
+    margin-top: 15px;
+    font-size: 30px;
+}
+
+.menu{
+    position: absolute;
+    right: 50px;
+}
+
+ul li{
+    display: inline;
+    padding: 10px;
+}
+/* End of title bar styling */
+
+/* Status styling */
+.status{
+    font-size: 30px;
+    font-weight: bold;
+    padding-left: 30px;
+    margin-top: 10px;
+    height: 40px;
+}
+
+
+/* This is details styling */
+.sales, .revenue, .customers {
+    color: #3a443d;
+    background-color: #ffffff;
+    margin-top: 10px;
+    text-align: center;
+    height: 150px;
+    width: 30vw;
+    position: absolute;
+    
+}
+
+.sales #title, .revenue #title, .customers #title{
+    font-size: 25px;
+    font-weight: bold;
+    position: relative;
+    color: #332c81;
+    top: 10px;
+}
+
+.sales hr, .revenue hr, .customers hr{
+    color: #ffffff;
+    position: relative;
+    top: 15px;
+    width: 20vw;
+    margin-bottom: 25px;
+}
+
+.sales strong, .revenue strong, .customers strong{
+    color: #3d3d3f;
+    font-size: 50px;
+}
+
+.active_status, .blocked_status{
+    color: #ffffff;
+    border: solid black 1px;
+    border-radius: 5px;
+}
+.active_status{
+    padding: 1px 30px;
+    background-color: #00ff00; 
+}
+.blocked_status{
+    padding: 1px 23px;
+    background-color: #ff0000; 
+}
+
+/* Styling Customer view */
+
+.search_msg{
+    position: relative;
+    left: 70vw;
+    bottom: 15px;
+    height: 10px;
+}
+.costomer_views, .home_costomer_views{
+    position: absolute;
+    left: 2.5vw;
+    height: 450px;
+    margin-top: 180px;
+    background-color: #fff;
+}
+
+.costomer_views{width: 95vw;}
+.home_costomer_views{ width: 62.5vw;}
+
+
+/* Customer table details styling */
+#table_title{
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #332c81;
+}
+
+.costormer_table{
+    width: 96%;
+    margin-top: 30px;
+    margin-left: 2%;
+    border-collapse: collapse;
+}
+
+.costormer_table th{
+    color: #ecf3f9;
+    height: 40px;
+    font-size: 20px;
+    background-color: #332c81;
+}
+
+.costormer_table td{
+    text-align: center;
+    height: 25px;
+    font-size: 18px;
+}
+
+.costormer_table tbody tr:hover{
+    background-color: #ecf3f9e1;
+}
+
+.costormer_table a{
+    color: #3d3d3f;
+    text-decoration: none;
+}
+
+/* Footer styling */
+footer{
+    position: relative;
+    top: 78vh;
+}
+
+.sales{left: 2.5vw;}
+.revenue{left: 35vw;}
+.customers{left: 67.5vw;}
+footer hr{color: #fff;}
+#logout_link{color: #b4b3c0;}
+footer strong{color: #332c81;}
+.search_form input{background-color: #ffffff;}

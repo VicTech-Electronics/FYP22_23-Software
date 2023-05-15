@@ -1,0 +1,45 @@
+/* Customer balance view style */
+.balance{
+    color: #3a443d;
+    background-color: #fff;
+    margin-top: 10px;
+    text-align: center;
+    height: 150px;
+    width: 62.5vw;
+    position: absolute;
+    left: 2.5vw; 
+}
+
+.balance #title{
+    font-size: 25px;
+    font-weight: bold;
+    position: relative;
+    color: #332c81;
+    top: 10px;
+}
+
+.balance hr{
+    color: #fff;
+    position: relative;
+    top: 15px;
+    width: 20vw;
+    margin-bottom: 25px;
+}
+
+.balance strong{
+    color: #3d3d3f;
+    font-size: 50px;
+}
+
+#details_line{
+    position: relative;
+    top: 40px;
+    color: #fff;
+}
+
+/* Style for customer permision links */
+.permisions{
+    position: relative;
+    top: 20px;
+    left: 60%;
+}

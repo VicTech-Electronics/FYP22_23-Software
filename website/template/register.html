@@ -1,7 +1,7 @@
 {% extends 'admin.html' %}
 {% load static %}
 {% block page_title %}
-    <title>Login</title>
+    <title>Register</title>
 {% endblock %}
 
 {% block links %}
@@ -11,21 +11,25 @@
 
 
 {% block details %}
-<div class="login_form">
+<div class="reg_form">
     <center>
-        <h2 id="form_title">Login Form</h2>
-        <form action="{% url 'login' %}" method="post">
+        <h2 id="form_title">Registration Form</h2>
+        <form action="{% url 'register' %}" method="post">
             {% csrf_token %}
             <input type="text" name="username" placeholder="Username"><br>
-            <input type="password" name="password" placeholder="Password"><br>
-            <input id="form_btn" type="submit" value="Login"><br><br>
+            <input type="text" name="first_name" placeholder="First name"><br>
+            <input type="text" name="last_name" placeholder="Last name"><br>
+            <input type="email" name="email" placeholder="Email"><br>
+            <input type="text" name="card_no" placeholder="Card number"><br>
+            <input type="password" name="password1" placeholder="Password"><br>
+            <input type="password" name="password2" placeholder="Confirm password"><br>
+            <input id="form_btn" type="submit" value="Register"> <br><br>
 
             {% for message in messages %}
                 <p class="{{message.logs}}">{{message}}</p>
             {% endfor %}
-
-            You don't have an account.? <br>
-            Request: <a href="{% url 'register' %}">Registration.</a>
+            Alread have an account.?
+            <a href="{% url 'login' %}">Login</a>
         </form>
     </center>
 </div>

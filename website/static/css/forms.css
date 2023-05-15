@@ -1,0 +1,75 @@
+.admin_reg, .login_form, .reg_form{
+    width: 300px;
+    background-color: #fff;
+    position: absolute;
+    left: 40vw;
+}
+
+.admin_reg{
+    height: 420px;
+    left: 67%;
+    margin-top: 180px;
+}
+
+.login_form{
+    height: 350px;
+}
+
+.reg_form{
+    height: 470px;
+}
+
+.search_form{
+    position: relative;
+    top: 20px;
+    left: 43vw;
+}
+
+.admin_reg form, .login_form form, .reg_form form{
+    height: 100%;
+    width: 99%;
+}
+
+.admin_reg form input, .login_form form input, .reg_form form input{
+    margin: 5px 0;
+    height: 20px;
+    width: 70%;
+}
+
+#form_btn{
+    color: #fff;
+    height: 40px;
+    font-size: 20px;
+    background-color: #332c81;
+}
+
+#form_title{
+    margin-top: 30px;
+    font-size: 30px;
+    color: #332c81;
+}
+
+.debug_msg{
+    color: #0000ff;
+    border: solid #0000ff 1px;
+}
+
+.info_msg{
+    color: #800000;
+    border: solid #800000 1px;
+}
+
+.success_msg{
+    color: #00ff00;
+    border: solid #00ff00 1px;
+}
+
+.warning_msg{
+    color: #ffa500;
+    border: solid #ffa500 1px;
+}
+
+.error_msg{
+    color: #ff0000;
+    border: solid #ff0000 1px;
+}
