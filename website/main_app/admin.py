@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import *
+from . models import *
 
 # Register your models here.
-admin.site.register(Device)
-admin.site.register(Report)
-admin.site.register(Call)
-admin.site.register(Message)
+admin.site.register(Personnel)
+admin.site.register(Patient)
+admin.site.register(Medical)
