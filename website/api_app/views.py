@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.decorators import api_view
-from main_app.models import Patient, Medical
+from rest_framework import status
+from .models import InfoSerializer
 
 # Create your views here.
 @api_view(['GET'])
@@ -10,33 +9,26 @@ def documentation(request):
     info = [
         {
             'endpoint': '.../api',
-            'methode': 'GET',
+            'method': 'GET',
             'body': None,
-            'description': 'View the documentation to this API'
+            'description': 'View documentation for this API'
         },
         {
-            'endpoint': '.../api/examine',
-            'methode': 'POST',
-            'body': '{"code": str, "examination": str}',
-            'description': 'Post the medical examination report to the server'
+            'endpoint': '.../api/info',
+            'method': 'POST',
+            'body': '{"vehicle_number": str, "latitude": float, "longitude": float, "description": str}',
+            'description': 'Adding new accident information',
         }
     ]
-
     return Response(info, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
-def examine(request):
-    # Collect posted data
-    code = request.data.get('code')
-    examination = request.data.get('examination')
-
-    try:
-        patient = Patient.objects.get(code=code)
-    except Patient.DoesNotExist:
-        return Response(f'Patient of code {code}, not exist', status=status.HTTP_404_NOT_FOUND)
-    
-    medical = Medical.objects.create(patient=patient, medical_examination=examination)
-    medical.save()
-
-    return Response('SUCCESS')
+def informations(request):
+    vehicle_number = request.data.get('vehicle_number')
+    serializer = InfoSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response('SUCCESS')
+    else:
+        return Response('FAIL', status=status.HTTP_400_BAD_REQUEST)

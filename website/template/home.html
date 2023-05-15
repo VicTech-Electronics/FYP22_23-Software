@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident Information</title>
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" type="text/css" media="all" />
+</head>
+<body>
+    <div class="container">
+        <div class="heading">
+            <h1>Accident Information</h1>
+            <span class="user">
+                {{request.user}} |
+                <a href="{% url 'logout' %}">Logout</a>
+            </span>
+        </div>
+
+        <div class="info_msg">
+            {% for message in messages %}
+                <h3 class="{{ message.tags }}" >{{message}}</h3>
+            {% endfor %}
+        </div>
+  
+        <!-- Show information about accidents here -->
+        {% for info in informations %}
+            <div class="accident-item">
+                <h2>Vehicle: {{info.vehicle_number}}</h2>
+                <p>{{info.description}}</p>
+                <a href="{% url 'details' info_id=info.id %}">More</a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

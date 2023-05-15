@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident details</title>
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+</head>
+<body>
+    <h1>Accident location</h1>
+    <div id="map" class="map"></div>
+
+    <div id="accident_info" class="info">
+        <h4>Location Information</h4>
+        <div class="content">
+            <strong>Coutry:</strong> {{our_location.country}} <br>
+            <strong>Region:</strong> {{our_location.regionName}} <br>
+            <strong>City:</strong> {{our_location.city}} <br>
+            <strong>District:</strong> {{our_location.district}} <br>
+            <strong>ZIP:</strong> {{our_location.zip}} <br>
+        </div>
+    </div>
+    
+
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrzIe3qsgw_1IjxbUj2skzr2_yJH9wKm0&callback=initMap">
+    </script>
+
+    <script>
+        var vehicle_number = '{{informations.vehicle_number}}';
+        var date = '{{informations.date}}';
+        var time = '{{informations.time}}';
+        var description = '{{informations.description}}';
+        var latitude = '{{informations.latitude}}';
+        var longitude = '{{informations.longitude}}';
+
+        var our_latitude = '{{our_location.lat}}';
+        var our_location = '{{our_location.ln}}';
+    </script>
+    <script src="{% static 'javascript/map_script.js' %}"></script>
+</body>
+</html>
