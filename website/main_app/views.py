@@ -1,115 +1,144 @@
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from .decorators import unauthenticated
 from django.contrib import messages
-from .models import *
-import requests
+
+from main_app.models import Customer, Expenses, Transaction
+from .decorators import unauthenticated
+from django.contrib.auth.models import User
+from django.db.models import Q
 import json
 
-# Registrations functionality
+# Create your views here.
+@login_required(login_url='login')
+def home(request):
+    # Count costomers from the model
+    no_of_customers = Customer.objects.all().count()
+
+    # Count revenue from the model
+    revenue = 0
+    for transaction in Transaction.objects.all():
+        revenue = revenue + transaction.amount
+
+    # Count expenses from the model
+    expenses = 0
+    for info in Expenses.objects.all():
+        expenses = expenses + info.amount
+
+    # Calculate profit from revenue and expenses counted above
+    profit = revenue - expenses
+
+    # Calculate monthly revenue
+    monthly_income = 0
+    monthly_revenue = []
+    for month in range(1, 13):
+        for rev in Transaction.objects.filter(date_time__month=month):
+            monthly_income = monthly_income + rev.amount
+        monthly_revenue.append(monthly_income)
+        monthly_income = 0
+    
+    # Calculate monthly expenses
+    monthly_outcome = 0
+    monthly_expenses = []
+    for month in range(1, 13):
+        for expens in Expenses.objects.filter(date_time__month=month):
+            monthly_outcome = monthly_outcome + expens.amount
+        monthly_expenses.append(monthly_outcome)
+        monthly_outcome = 0
+    
+    # Collect data for no_of_customer, revenue, expenses and profit
+    data = {
+        'no_of_customers': no_of_customers,
+        'revenue': revenue,
+        'expenses': expenses,
+        'profit': profit
+    }
+
+    # Collect monthly data for revenue and expenses
+    transactions = {
+        'revenue': monthly_revenue,
+        'expenses': monthly_expenses,
+    }
+
+
+    # Calculate the service demand over the year
+    demands = []
+    for month in range(1, 13):
+        urination = 0
+        defecation = 0
+        shower = 0
+        for _ in Transaction.objects.filter(date_time__month=month):
+            urination = Transaction.objects.filter(Q(date_time__month=month) & Q(details='urination')).count()
+            defecation = Transaction.objects.filter(Q(date_time__month=month) & Q(details='defecation')).count()
+            shower = Transaction.objects.filter(Q(date_time__month=month) & Q(details='shower')).count()
+        
+        demands.append(
+            {
+                month: {
+                    'urination': urination,
+                    'defecation': defecation,
+                    'shower': shower
+                }
+            }
+        )
+    
+    # Collect all required informations
+    informations = {
+        'transactions': json.dumps(transactions),
+        'demands': json.dumps(demands),
+    }
+    
+    print(f"Data: {informations['demands']}")
+    return render(request, 'index.html', {'data': data, 'informations': informations})
+
 @unauthenticated
-def registration(request):
-    if request.method == 'POST':
-        name = request.POST.get('username')
-        d_number = request.POST.get('device_number')
-        contacts = request.POST.get('contacts')
-        pass1 = request.POST.get('password')
-        pass2 = request.POST.get('confirm')
-
-
-        if pass1 == pass2:
-            if User.objects.filter(username=name).exists():
-                messages.info(request, 'Username alread exist')
-                return redirect('register')
-            if Device.objects.filter(device_number=d_number).exists():
-                messages.info(request, 'Device number alread exist')
-                return redirect('register')
-            else:
-                user = User.objects.create_user(username=name, password=pass1)
-                device = Device.objects.create(device_user=user, device_number=d_number, contacts=contacts)
-                user.save()
-                device.save()
-                messages.success(request, 'Device successful registerd for ' + name)
-                return redirect('login')
-        else:
-            messages.error(request, 'Error: Password missmatch')
-            return redirect('register')
-    else:
-        return render(request, 'register.html')
-
-# Login functionality
-@unauthenticated
-def login_page(request):
+def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
-
+        user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, f'Hello {username}, you are successfull login')
             return redirect('home')
         else:
             messages.error(request, 'Invalid credentials')
             return redirect('login')
-    else:
-        return render(request, 'login.html')
 
-# Logout method
+    return render(request, 'login.html')
+
+
+@login_required(login_url='login')
 def logout_user(request):
     logout(request)
     return redirect('login')
 
-# Home page functionality
 @login_required(login_url='login')
-def home_page(request):
-    # Declatation of variable arrays to store datas
-    user_ids = []
-    username = []
-    device_number = []
-    heart_rate = []
-    body_temperature = []
-    request_data = []
-    contacts = []
-    
-    devices = Device.objects.filter(device_user = request.user.pk)
-    device_request = Request.objects.filter(device__in = devices)
+def registration(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        card_number = request.POST.get('card_number')
+        password = request.POST.get('password')
+        password_confirm = request.POST.get('password_confirm')
 
-    for req in device_request:
-        user_ids.append(req.device.device_user.pk)
-        username.append(req.device.device_user.username)
-        device_number.append(req.device.device_number)
-        heart_rate.append(req.heat_rate)
-        body_temperature.append(req.body_temp)
-        contacts.append(req.device.contacts)
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username alread exist')
+            return redirect('register')
+        
+        if Customer.objects.filter(card_number=card_number).exists():
+            messages.error(request, 'Card alread in use')
+            return redirect('register')
 
-    for id, user, dev, rate, temp, conts in zip(
-        user_ids, username, device_number, heart_rate, body_temperature, contacts):
-        data = {
-            'id': id,
-            'username': user,
-            'device_number': dev,
-            'heart_rate': rate,
-            'body_temperature': temp,
-            'contacts': conts,
-        }
-        request_data.append(data)
+        if password == password_confirm:
+            user = User.objects.create(username=username, password=password)
+            user.save()
+            customer = Customer.objects.create(user=user, card_number=card_number)
+            customer.save()
+            messages.success(request, f'{username}, Registered successful')
+            return redirect('register')
+        else:
+            messages.error(request, 'Password missmatch')
+            return redirect('register')
 
-
-    return render(request, 'home.html', {'informations': request_data})
-
-@login_required(login_url='login')
-def location_manager(request, id):
-
-    ip = requests.get('https://api.ipify.org?format=json')
-    ip_address = json.loads(ip.text)
-    location = requests.get('http://ip-api.com/json/' + ip_address['ip'])
-    our_location = json.loads(location.text)
-   
-    context = {
-        'location': our_location,
-        'user': User.objects.get(pk=id)
-    }
-    return render(request, 'map.html', {'context': context})
+    return render(request, 'register.html')

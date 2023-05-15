@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from main_app.models import Request
+from main_app.models import Transaction
 
 # Create your models here.
-class RequestSerializer(ModelSerializer):
+class TransactionSerializer(ModelSerializer):
     class Meta:
-        model = Request
-        fields = '__all__'
+        model = Transaction
+        fields = ['customer', 'details', 'amount']

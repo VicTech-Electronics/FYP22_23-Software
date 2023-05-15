@@ -1,70 +1,42 @@
+{% extends 'index.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Registration form</title>
-    <!-- Meta tag Keywords -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8" />
-    <meta name="keywords"
-        content="Report Login Form Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-    <!-- //Meta tag Keywords -->
-    <link href="//fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!--/Style-CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
-    <!--//Style-CSS -->
-
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css" media="all">
-
-</head>
-
-<body>
-
-    <!-- form section start -->
-    <section class="w3l-hotair-form">
-        <h1>Registration Form</h1>
-        <div class="container">
-            <!-- /form -->
-            <div class="workinghny-form-grid">
-                <div class="main-hotair">
-                    <div class="content-wthree">
-                        <h2>Register</h2>
-
-                        <form action="{% url 'register' %}" method="post">
-                            {% csrf_token %}
-                            <input type="text" class="text" name="username" placeholder="Username" required="" autofocus>
-                            <input type="text" class="text" name="device_number" placeholder="Device number" required="" autofocus>
-                            <input type="text" class="text" name="contacts" placeholder="Contacts" required="" autofocus>
-                            <input type="password" class="password" name="password" placeholder="Password" required="" autofocus>
-                            <input type="password" class="password" name="confirm" placeholder="Confirm Password" required="" autofocus>
-
-                            {% for message in messages %}
-                                <p class="{{ message.tags }}">
-                                    {{message}}
-                                </p>
-                            {% endfor %}
-                            <button class="btn" type="submit">Register</button>
-                        </form>
-                        <p class="account">Alread have an account? <a href="{% url 'login' %}">Login</a></p>
-                    </div>
-                    <div class="w3l_form align-self">
-                        <div class="left_grid_info">
-                            <img src="{% static 'images/1.png' %}" alt="" class="img-fluid">
+{% block contents %}
+<div class="container-fluid">
+    <div class="row justify-content-center align-iterms-center" style="height: 100vh;">
+        <div class="col-md-6 card card-center">
+            <div class="cards__heading">
+                <h3>Registration Page <span></span></h3>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="username" class="input__label">Username</label>
+                            <input type="text" class="form-control input-style" name="username" placeholder="Enter username">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="card_number" class="input__label">Card number</label>
+                            <input type="text" class="form-control input-style" name="card_number" placeholder="Enter card number">
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- //form -->
-        </div>
-        <!-- copyright-->
-        <div class="copyright text-center">
-            <p class="copy-footer-29">© 2023 DIT. All rights reserved | Design by <a
-                        href="#">Spona Mwaruka</a></p>
-        </div>
-        <!-- //copyright-->
-    </section>
-    <!-- //form section start -->
-</body>
+                    <div class="form-group">
+                        <label for="password" class="input__label">Password</label>
+                        <input type="password" class="form-control input-style" name="password" placeholder="Enter user password">
+                    </div>
+                    <div class="form-group">
+                        <label for="password2" class="input__label">Confirm password</label>
+                        <input type="password" class="form-control input-style" name="password_confirm" placeholder="Confirm user password">
+                    </div>
 
-</htm>
+                    {% for message in messages %}
+                        <p class="{{message.tags}}">{{message}}</p>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary btn-style mt-4">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
