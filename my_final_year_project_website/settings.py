@@ -78,14 +78,18 @@ WSGI_APPLICATION = 'my_final_year_project_website.wsgi.application'
 # Local database connection (sqlite3)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'victonix_fyp_db',
+        'USER': 'postgres',
+        'PASSWORD': '#PGAdmin98',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
 # Server database connection
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
 
 
 # Password validation
