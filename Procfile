@@ -1,1 +1,1 @@
-web: gunicorn stanitary_tower.wsgi:application --log-file -
+web: gunicorn stanitary_tower.wsgi --log-file -
