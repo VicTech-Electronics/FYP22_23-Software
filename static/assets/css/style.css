@@ -20178,6 +20178,7 @@ div.tagsinput {
   background-size: cover; }
 
 .auth .login-half-bg {
+  background: url("../images/auth/login-bg.jpg");
   background-size: cover; }
 
 .auth.register-half-bg {
