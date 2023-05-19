@@ -1,0 +1,1 @@
+web: gunicorn spona_web_project.wsgi --log-file -
