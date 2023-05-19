@@ -81,8 +81,8 @@ def home_page(request):
         user_ids.append(req.device.device_user.pk)
         username.append(req.device.device_user.username)
         device_number.append(req.device.device_number)
-        heart_rate.append(req.heat_rate)
-        body_temperature.append(req.body_temp)
+        heart_rate.append(req.heart_rate)
+        body_temperature.append(req.body_temperature)
         contacts.append(req.device.contacts)
 
     for id, user, dev, rate, temp, conts in zip(
@@ -97,19 +97,20 @@ def home_page(request):
         }
         request_data.append(data)
 
-
+        print(f"Data to show: {request_data}")
     return render(request, 'home.html', {'informations': request_data})
 
 @login_required(login_url='login')
 def location_manager(request, id):
-
+    print(f'ID: {id}')
     ip = requests.get('https://api.ipify.org?format=json')
     ip_address = json.loads(ip.text)
     location = requests.get('http://ip-api.com/json/' + ip_address['ip'])
     our_location = json.loads(location.text)
-   
+    user = User.objects.get(pk=1)
+
     context = {
         'location': our_location,
-        'user': User.objects.get(pk=id)
+        'user': user
     }
     return render(request, 'map.html', {'context': context})
