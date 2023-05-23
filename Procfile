@@ -1,0 +1,1 @@
+web: gunicorn tute_web_project.wsgi --log-file -
