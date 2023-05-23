@@ -1,13 +1,22 @@
 function initMap() {
+
+    console.log("Latitude" + latitude)
+    console.log("Longitude" + longitude)
+    console.log("Our Latitude" + our_latitude)
+    console.log("Our longitude" + our_longitude)
+    
     // Ofice location 
     our_latitude = parseFloat(our_latitude);
-    our_latitude = parseFloat(our_longitude)
+    our_longitude = parseFloat(our_longitude)
     var ofice_location = {lat: our_latitude, lng: our_longitude}
 
-    // Accident location
+
     latitude = parseFloat(latitude);
     longitude = parseFloat(longitude);
     var location = {lat: latitude, lng: longitude};
+
+
+    
 
     var options = {
         center: ofice_location,
