@@ -12714,7 +12714,6 @@ h3.number {
   position: absolute;
   left: 20px;
   top: 20px;
-  background: url(../images/cross.png) no-repeat center;
   z-index: 100;
   cursor: pointer;
   z-index: 999; }
@@ -12768,8 +12767,6 @@ a.back i {
 .login_text_field_bg {
   background-color: rgba(71, 90, 171, 0.07); }
 
-select {
-  background: url(../images/down.png) no-repeat 96% 52%; }
 
 .input-style:focus {
   border: 1px solid var(--primary);
