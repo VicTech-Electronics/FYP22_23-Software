@@ -1,0 +1,188 @@
+﻿{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Blue Wave - Contact</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="{% static 'css/tooplate_style.css' %}" rel="stylesheet" type="text/css" />
+<!--   Free Website Template by t o o p l a t e . c o m   -->
+<script language="javascript" type="text/javascript">
+function clearText(field)
+{
+    if (field.defaultValue == field.value) field.value = '';
+    else if (field.value == '') field.value = field.defaultValue;
+}
+</script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.lightbox-0.5.css' %}" />    
+    
+<!-- Arquivos utilizados pelo jQuery lightBox plugin -->
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.lightbox-0.5.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.lightbox-0.5.css' %}" media="screen" />
+<!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
+
+<!-- Ativando o jQuery lightBox plugin -->
+<script type="text/javascript">
+$(function() {
+    $('#map a').lightBox();
+});
+</script>
+
+</head>
+<body>
+
+<div id="tooplate_wrapper">
+
+	<div id="tooplate_header">
+        <div id="tooplate_menu"></div>
+		<div id="site_title">
+            <h1>
+                <a href="#"></a>
+                <span>Hospital</span>
+            </h1>
+        </div>
+    </div> <!-- end of header -->
+    
+    <div id="tooplate_middle">
+        <div id="menu_option">
+            {% block menu %}
+                <h3 id="username">{{user}}</h3>
+                <li id="logout_option"><a href="{% url 'logout' %}" style="color: gray;">Logout</a></li>
+            {% endblock %}
+        </div> <!-- end of search box -->
+    </div> <!-- end of middle -->
+    
+    <div id="tooplate_main"> 
+        <div id="tooplate_content">
+            {% block content %}
+                <h2>Registration</h2> 
+                <div class="col_w880 portfolio">
+                    <hr><hr>
+                    <div class="col_w400 float_l">
+                        <div id="contact_form">
+                            <form method="post" action="{% url 'home' %}">
+                                {% csrf_token %}
+                                <!-- Personal informations -->
+                                <h5 class="info_heading"><strong>Personal informations:</strong></h5>
+                                <div class="parrent_tag">
+                                    <div class="child_name">
+                                        <label for="surname">Surname</label> 
+                                        <input type="text" class="input_field" name="surname" />
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="middle_name">Middle name</label> 
+                                        <input type="text" class="input_field" name="middle_name" />
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="first_name">First name</label> 
+                                        <input type="text" class="input_field" name="first_name" />
+                                    </div>                                   
+                                </div>
+
+                                <div class="parrent_tag">
+                                    <div class="child_name">
+                                        <label for="tribe">Patient ID</label> 
+                                        <input type="text" class="input_field" name="patient_id" />
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="religion">Religion:</label> 
+                                        <select class="input_field" name="religion">
+                                            <option value="empty">--Optional--</option>
+                                            <option value="christian">Christian</option>
+                                            <option value="islam">Islam</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="birth_date">Date of birth</label> 
+                                        <input type="date" class="input_field" name="birth_date"/>
+                                    </div>                               
+                                </div>
+
+                                <div class="parrent_tag">
+                                    <div class="child_name">
+                                        <label for="mobile">Mobile</label> 
+                                        <input type="tel" class="input_field" name="mobile" />
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="blood_group">Blood group:</label> 
+                                        <select class="input_field" name="blood_group">
+                                            <option value="empty">--Optional--</option>
+                                            <option value="Group A">Group A</option>
+                                            <option value="Group B">Group B</option>
+                                            <option value="Group AB">Group AB</option>
+                                            <option value="Group O">Group O</option>
+                                        </select>
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="gender">Gender</label> 
+                                        <select class="input_field" name="gender">
+                                            <option value="empty">--Optional--</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                    </div>                               
+                                </div>
+
+                                <div class="cleaner h50"></div>
+                                <!-- Residential infomations -->
+                                <h5 class="info_heading"><strong>Residential informations:</strong></h5>
+                                <div class="parrent_tag">
+                                    <div class="child_name">
+                                        <label for="region">Region</label> 
+                                        <input type="text" class="input_field" name="region" />
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="district">District</label> 
+                                        <input type="text" class="input_field" name="district" />
+                                    </div>
+                                    <div class="child_name">
+                                        <label for="ward">Ward</label> 
+                                        <input type="text" class="input_field" name="ward" />
+                                    </div>                                   
+                                </div>
+
+                                <div class="cleaner h10"></div>
+                                <input type="checkbox" class="checkbox_field" name="first_time"><strong>First time registration.</strong>
+                                
+                                <div class="cleaner h10"></div>
+                                <input type="submit" value="Submit" class="submit_btn float_l" />
+                            </form>
+                        </div> 
+                    </div>
+
+                    {% if pdf_code != null %}
+                        <div id="download_link" class="cleaner" style="float: right; margin: 0 50px;">
+                            <p><strong><a href="{% url 'generate_code_PDF' code=pdf_code %}">Download</a></strong> Serial number </p>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endblock %}
+        </div> <!-- end of content -->
+    </div>	<!-- end of main -->
+    
+    <div id="tooplate_footer">
+        Copyright © 2023 <a href="https:/dit.ac.tz">Dar es salaam Institute of Technology</a>
+        <p>Prepared by: <strong><a href="#"></a>John Mbogo</strong></p>
+    </div> <!-- end of tooplate_footer -->
+</div> <!-- end of wrapper -->
+
+<!-- Scripts for Page manupurations -->
+<script>
+    var logout = document.getElementById('logout_option');
+    document.getElementById('username').addEventListener('click', function(){
+        if (logout.style.visibility == 'hidden') logout.style.visibility = 'visible';
+        else logout.style.visibility = 'hidden';
+    })
+
+    var link = document.getElementById('download_link');
+    link.addEventListener('click', function(){
+        link.style.visibility = 'hidden';
+    })
+    
+</script>
+</body>
+</html>
