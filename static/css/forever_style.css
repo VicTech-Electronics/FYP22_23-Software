@@ -51,20 +51,17 @@ cite span { color: #333 }
 em { color: #4f7eff; }
 
 .tmo_list { margin: 0 0 0 10px; padding: 0; list-style: none }
-.tmo_list li { color:#4f7eff; margin:0 0 10px; padding: 3px 0 3px 25px; background: transparent url(../images/templatemo_list.png) no-repeat scroll 0 8px  }
 .tmo_list li a { color: #4f7eff }
 .tmo_list li a:hover { color: #4f7eff }
 
 #templatemo_header_wrapper {
 	width: 100%;
-	background: url(../images/templatemo_header_wrapper.jpg) top center no-repeat;
 }
 
 #templatemo_header {
 	width: 1020px;
 	height: 200px;
 	margin: 0 auto;
-	background: url(../images/templatemo_header_wrapper.jpg) top center no-repeat;
 }
 
 #site_title a {
@@ -77,7 +74,6 @@ em { color: #4f7eff; }
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
-	background: url(../images/templatemo_logo.png) no-repeat;
 }
 
 #site_title a span {
@@ -138,23 +134,19 @@ em { color: #4f7eff; }
 
 #templatemo_menu ul li a:hover, #templatemo_menu ul .current {
 	color: #acc0f9;
-	background: url(../images/templatemo_menu_hover.png) bottom center no-repeat;
 }
 /* end of menu */
 
 
 #templatemo_main_wrapper {
 	width: 100%;
-	background: url(../images/templatemo_main_wrapper.jpg) top center no-repeat
 
 }
 
 #templatemo_main {
 	width: 960px;
 	padding: 60px 30px 30px;
-	margin: 0 auto;
-	background: url(../images/templatemo_main_wrapper.jpg) top center no-repeat	
-	
+	margin: 0 auto;	
 }
 
 #templatemo_content {
@@ -229,7 +221,6 @@ em { color: #4f7eff; }
 	padding-top: 10px;
 	font-size: 16px;
 	font-weight: bold;
-	background: url(../images/templatemo_comment.png) no-repeat;
 }
 
 .post_box .comment a {
@@ -355,8 +346,6 @@ em { color: #4f7eff; }
 
 #templatemo_footer_wrapper {
 	width: 100%;
-	background: url(../images/templatemo_footer_wrapper.jpg) bottom center no-repeat
-
 }
 
 #templatemo_footer {
@@ -364,8 +353,6 @@ em { color: #4f7eff; }
 	padding: 30px;
 	margin: 0 auto;
 	border-top: 1px solid #0d3bb3;
-	background: url(../images/templatemo_footer_wrapper.jpg) bottom center no-repeat
-
 }
 
 .footer_col_w300 {
