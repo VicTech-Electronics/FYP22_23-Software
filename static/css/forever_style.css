@@ -10,6 +10,7 @@ body {
 	font-size: 12px;
 	line-height: 1.5em; 
 	background-color: #000;
+	background-image: url(../images/templatemo_body.jpg);
 	background-repeat: repeat-x;
 	background-position: top
 }
@@ -36,7 +37,6 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 .h50 { height: 50px }
 .h60 { height: 60px }
 
-a.more { display: block; width: 128px; height: 20px; padding: 22px 0 0; color: #94c2f3; font-weight: bold; text-align: center; background: url(../images/templatemo_more.png) no-repeat bottom center  }
 a.more:hover { color: #fff; text-decoration: none }
 
 .float_l { float: left }
