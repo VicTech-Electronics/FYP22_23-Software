@@ -121,8 +121,12 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+# settings.py
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    ('assets', '/path/to/your/static/assets/'),
+    # Exclude the problematic file or directory
+    # ('excluded', '/path/to/excluded/files/'),
 ]
 
 django_heroku.settings(locals())
