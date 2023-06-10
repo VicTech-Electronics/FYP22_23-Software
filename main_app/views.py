@@ -33,7 +33,7 @@ def custormer_dashboard(request):
 @login_required(login_url='login')
 def location(request, pk):
     # Accident information from the database
-    db_data = Accident.objects.get(id=pk)
+    db_data = Accident.objects.get(pk=pk)
     accident_lat = db_data.latitude
     accident_lng = db_data.longitude
 
