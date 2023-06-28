@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Home</title>
+  <title>Notifications</title>
   <!-- Add necessary CSS stylesheets -->
   <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}">
   <script src="{% static 'js/script.js' %}"></script>
@@ -10,26 +10,33 @@
 <body>
   <!-- Header section -->
   <header>
-    <h1>Home page</h1>
+    <h1>Welcome to Notifications</h1>
     <nav>
+      <ul>
         <ul>
             <li><a href="{% url 'home' %}">{{request.user}}</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
         </ul>
+      </ul>
     </nav>
   </header>
 
   <!-- Main content section -->
   <section id="main-content">
-    <h2>Meter: ------------ </h2>
+    <h2>Notifications</h2>
     <div id="notifications-container">
+      <!-- Placeholder for displaying notifications -->
       <div class="notification">
-        <h3>Usage: --- units</h3>
-        <p>Remain units: --- units</p>
-        <small style="font-size: x-small;"><i><a href="{% url 'payment' %}">Payment</a></i></small>
-        <small style="font-size: x-small;"><i><a href="{% url 'notification' %}">Notifications</a></i></small>
-        <small style="font-size: x-small;"><i><a href="{% url 'payment_history' %}">Payment History</a></i></small>
+        <h3>Notification Title</h3>
+        <p>Notification description goes here.</p>
+        <p class="notification-time">June 26, 2023, 10:30 AM</p>
       </div>
+      <div class="notification">
+        <h3>Another Notification Title</h3>
+        <p>Another notification description goes here.</p>
+        <p class="notification-time">June 25, 2023, 2:45 PM</p>
+      </div>
+      <!-- Add more notification elements dynamically -->
     </div>
   </section>
 </body>

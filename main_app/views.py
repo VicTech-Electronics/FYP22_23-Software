@@ -1,47 +1,23 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from .decorators import unauthenticated
 from django.contrib import messages
+from .decorators import *
 from .models import *
 import requests
 import json
 
-# Registrations functionality
-@unauthenticated
-def registration(request):
-    if request.method == 'POST':
-        name = request.POST.get('username')
-        d_number = request.POST.get('device_number')
-        contacts = request.POST.get('contacts')
-        pass1 = request.POST.get('password')
-        pass2 = request.POST.get('confirm')
+# Create your views here.
+
+# @login_required(login_url='login')
+def home(request):
+    return render(request, 'home.html')
 
 
-        if pass1 == pass2:
-            if User.objects.filter(username=name).exists():
-                messages.info(request, 'Username alread exist')
-                return redirect('register')
-            if Device.objects.filter(device_number=d_number).exists():
-                messages.info(request, 'Device number alread exist')
-                return redirect('register')
-            else:
-                user = User.objects.create_user(username=name, password=pass1)
-                device = Device.objects.create(device_user=user, device_number=d_number, contacts=contacts)
-                user.save()
-                device.save()
-                messages.success(request, 'Device successful registerd for ' + name)
-                return redirect('login')
-        else:
-            messages.error(request, 'Error: Password missmatch')
-            return redirect('register')
-    else:
-        return render(request, 'register.html')
-
-# Login functionality
-@unauthenticated
-def login_page(request):
+# Account management
+@unauthenticated_user
+def signin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -50,67 +26,57 @@ def login_page(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('hospital')
         else:
             messages.error(request, 'Invalid credentials')
             return redirect('login')
     else:
         return render(request, 'login.html')
-
-# Logout method
-def logout_user(request):
-    logout(request)
-    return redirect('login')
-
-# Home page functionality
-@login_required(login_url='login')
-def home_page(request):
-    # Declatation of variable arrays to store datas
-    user_ids = []
-    username = []
-    device_number = []
-    heart_rate = []
-    body_temperature = []
-    request_data = []
-    contacts = []
     
-    devices = Device.objects.filter(device_user = request.user.pk)
-    device_request = Request.objects.filter(device__in = devices)
 
-    for req in device_request:
-        user_ids.append(req.device.device_user.pk)
-        username.append(req.device.device_user.username)
-        device_number.append(req.device.device_number)
-        heart_rate.append(req.heart_rate)
-        body_temperature.append(req.body_temperature)
-        contacts.append(req.device.contacts)
+def signout(request):
+    logout(request)
+    return redirect('home')
 
-    for id, user, dev, rate, temp, conts in zip(
-        user_ids, username, device_number, heart_rate, body_temperature, contacts):
-        data = {
-            'id': id,
-            'username': user,
-            'device_number': dev,
-            'heart_rate': rate,
-            'body_temperature': temp,
-            'contacts': conts,
-        }
-        request_data.append(data)
+# User management
+@unauthenticated_user
+def register_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        meter_number = request.POST.get('meter_number')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
 
-        print(f"Data to show: {request_data}")
-    return render(request, 'home.html', {'informations': request_data})
+        if password == confirm_password:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username alread exist')
+                return redirect('register')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                customer = Customer.objects.create(user=user, meter_number=meter_number, amount=0.0)
+                user.save()
+                customer.save()
 
-@login_required(login_url='login')
-def location_manager(request, id):
-    print(f'ID: {id}')
-    ip = requests.get('https://api.ipify.org?format=json')
-    ip_address = json.loads(ip.text)
-    location = requests.get('http://ip-api.com/json/' + ip_address['ip'])
-    our_location = json.loads(location.text)
-    user = User.objects.get(pk=1)
+                group = Group.objects.get(name='customer')
+                user.groups.add(group)
 
-    context = {
-        'location': our_location,
-        'user': user
-    }
-    return render(request, 'map.html', {'context': context})
+                messages.success(request, 'Account registered successfull')
+                return redirect('login')
+        else:
+            messages.error(request, 'Password mismatch')
+            return redirect('register')
+    else:
+        print('Method is not POST')
+        return render(request, 'register.html')
+
+
+
+def payment(request):
+    return render(request, 'payment.html')
+
+def notification(request):
+    return render(request, 'notification.html')
+
+def payment_history(request):
+    return render(request, 'payment_history.html')
