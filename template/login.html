@@ -25,14 +25,19 @@
         <!-- Login form -->
         <div id="login-form">
         <h3>Login</h3>
-        <form>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+          
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
 
-            <button type="submit">Login</button>
+          {% for message in messages %}
+              <p class="{{message.logs}}">{{message}}</p>
+          {% endfor %}
+
+          <button type="submit">Login</button>
         </form>
         </div>
     </section>

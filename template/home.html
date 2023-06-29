@@ -21,11 +21,11 @@
 
   <!-- Main content section -->
   <section id="main-content">
-    <h2>Meter: ------------ </h2>
+    <h2>Meter No: {{context.meter_number}} </h2>
     <div id="notifications-container">
       <div class="notification">
-        <h3>Usage: --- units</h3>
-        <p>Remain units: --- units</p>
+        <h3>Units: {{context.units}} psi.</h3>
+        <p>Balance: {{context.amount}} Tsh.</p>
         <small style="font-size: x-small;"><i><a href="{% url 'payment' %}">Payment</a></i></small>
         <small style="font-size: x-small;"><i><a href="{% url 'notification' %}">Notifications</a></i></small>
         <small style="font-size: x-small;"><i><a href="{% url 'payment_history' %}">Payment History</a></i></small>

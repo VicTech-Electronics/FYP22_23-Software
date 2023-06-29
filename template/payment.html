@@ -24,7 +24,8 @@
   <!-- Main content section -->
   <section id="main-content">
     <h2>Make a Payment</h2>
-    <form id="payment-form">
+    <form id="payment-form" action="{% url 'payment' %}" method="post">
+      {% csrf_token %}
       <label for="meter_number">Meter Number:</label>
       <input type="text" id="meter_number" name="meter_number" required>
 

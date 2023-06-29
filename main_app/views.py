@@ -10,9 +10,10 @@ import json
 
 # Create your views here.
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def home(request):
-    return render(request, 'home.html')
+    customer = Customer.objects.get(user=request.user.pk)
+    return render(request, 'home.html', {'context': customer})
 
 
 # Account management
@@ -26,7 +27,7 @@ def signin(request):
 
         if user is not None:
             login(request, user)
-            return redirect('hospital')
+            return redirect('home')
         else:
             messages.error(request, 'Invalid credentials')
             return redirect('login')
@@ -58,9 +59,6 @@ def register_user(request):
                 user.save()
                 customer.save()
 
-                group = Group.objects.get(name='customer')
-                user.groups.add(group)
-
                 messages.success(request, 'Account registered successfull')
                 return redirect('login')
         else:
@@ -71,12 +69,28 @@ def register_user(request):
         return render(request, 'register.html')
 
 
-
+@login_required(login_url='login')
 def payment(request):
+    if request.method == 'POST':
+        meter_number = request.POST.get('meter_number')
+        amount = request.POST.get('amount')
+
+        if Customer.objects.filter(meter_number = meter_number).exists():
+            customer = Customer.objects.get(meter_number = meter_number)
+            customer.amount += amount
+            messages.success(request, 'Payment done successful')
+            return redirect('payment')
+        else:
+            messages.error(request, 'Meter number not exist')
+            return redirect('payment')
+
     return render(request, 'payment.html')
 
+
 def notification(request):
-    return render(request, 'notification.html')
+    notifications = Notification.objects.all()
+    return render(request, 'notification.html', {'context': notifications})
 
 def payment_history(request):
-    return render(request, 'payment_history.html')
+    history = PaymentHistory.objects.all()
+    return render(request, 'payment_history.html', {'context': history})

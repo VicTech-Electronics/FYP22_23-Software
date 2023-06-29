@@ -33,22 +33,13 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Populate table rows dynamically using JavaScript or server-side data -->
-        <tr>
-          <td>2023-06-01</td>
-          <td>$50.00</td>
-          <td>Completed</td>
-        </tr>
-        <tr>
-          <td>2023-05-15</td>
-          <td>$30.00</td>
-          <td>Completed</td>
-        </tr>
-        <tr>
-          <td>2023-05-01</td>
-          <td>$20.00</td>
-          <td>Completed</td>
-        </tr>
+        {% for history in context %}
+          <tr>
+            <td>Tsh. {{history.amount}}</td>
+            <td>{{history.date}}</td>
+            <td>{{history.time}}</td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </section>

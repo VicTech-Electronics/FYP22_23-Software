@@ -24,7 +24,8 @@
     <!-- Register form -->
     <div id="register-form">
       <h3>Register</h3>
-      <form>
+      <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
         <label for="name">Username:</label>
         <input type="text" id="username" name="username" required>
         
@@ -39,6 +40,10 @@
 
         <label for="confirm_password">Confirm assword:</label>
         <input type="password" id="confirm_password" name="confirm_password" required>
+
+        {% for message in messages %}
+          <p class="{{message.logs}}">{{message}}</p>
+        {% endfor %}
 
         <button type="submit">Register</button>
       </form>

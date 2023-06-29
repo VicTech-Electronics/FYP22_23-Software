@@ -26,17 +26,14 @@
     <h2>Notifications</h2>
     <div id="notifications-container">
       <!-- Placeholder for displaying notifications -->
-      <div class="notification">
-        <h3>Notification Title</h3>
-        <p>Notification description goes here.</p>
-        <p class="notification-time">June 26, 2023, 10:30 AM</p>
-      </div>
-      <div class="notification">
-        <h3>Another Notification Title</h3>
-        <p>Another notification description goes here.</p>
-        <p class="notification-time">June 25, 2023, 2:45 PM</p>
-      </div>
-      <!-- Add more notification elements dynamically -->
+      {% for notification in context %}
+      ---------------------------------------------
+        <div class="notification">
+          <h3>{{notification.title}}</h3>
+          <p>{{notification.detail}}</p>
+          <p class="notification-time">{{notification.date_time}}</p>
+        </div>
+      {% endfor %}
     </div>
   </section>
 </body>
