@@ -5,11 +5,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .decorators import *
 from .models import *
-import requests
-import json
+
+# Definition of usefull variable
+cost_per_unit = 200
 
 # Create your views here.
-
 @login_required(login_url='login')
 def home(request):
     customer = Customer.objects.get(user=request.user.pk)
@@ -73,13 +73,20 @@ def register_user(request):
 def payment(request):
     if request.method == 'POST':
         meter_number = request.POST.get('meter_number')
-        amount = request.POST.get('amount')
+        amount = float(request.POST.get('amount'))
 
         if Customer.objects.filter(meter_number = meter_number).exists():
             customer = Customer.objects.get(meter_number = meter_number)
-            customer.amount += amount
-            messages.success(request, 'Payment done successful')
-            return redirect('payment')
+            if amount <= customer.amount:
+                customer.amount -= amount
+                units_payed = amount / cost_per_unit
+                customer.units += units_payed
+                customer.save()
+                messages.success(request, 'Payment done successful')
+                return redirect('payment')
+            else:
+                messages.error(request, 'Sorry you dont have enough money to pay such amount')
+                return redirect('payment')
         else:
             messages.error(request, 'Meter number not exist')
             return redirect('payment')

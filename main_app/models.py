@@ -13,8 +13,8 @@ class Customer(models.Model):
 
 class Notification(models.Model):
     customer = models.ForeignKey(Customer, null=False, on_delete=models.CASCADE)
-    title = models.CharField(max_length=10)
-    detail = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    detail = models.CharField(max_length=500)
     date_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):

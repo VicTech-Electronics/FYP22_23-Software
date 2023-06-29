@@ -32,6 +32,9 @@
       <label for="amount">Amount:</label>
       <input type="number" id="amount" name="amount" required>
       
+      {% for message in messages %}
+        <p class="{{message.logs}}">{{message}}</p>
+      {% endfor %}
       <button type="submit">Pay Now</button>
     </form>
   </section>
