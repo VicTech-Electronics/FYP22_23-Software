@@ -82,6 +82,10 @@ def payment(request):
                 units_payed = amount / cost_per_unit
                 customer.units += units_payed
                 customer.save()
+
+                payment_history = PaymentHistory.objects.create(customer=customer, amount=amount)
+                payment_history.save()
+
                 messages.success(request, 'Payment done successful')
                 return redirect('payment')
             else:
