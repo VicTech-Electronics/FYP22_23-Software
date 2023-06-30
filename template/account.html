@@ -1,0 +1,131 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block get_stated %}{% endblock %}
+{% block content %}
+
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="d-flex">
+      &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+      &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+      <div class="container">
+        <h2>{{data}}</h2>
+      </div>
+
+      <h5>{{user}}</h5> &nbsp; &nbsp; &nbsp;
+      <p><a href="{% url 'logout' %}">logout</a></p> 
+      &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+      &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+      &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+
+    </div>
+  </section>
+  <!-- End Breadcrumbs -->
+
+  <!-- ======= Blog Section ======= -->
+  <section id="blog" class="blog">
+    {% for message in messages %}
+      <p class="{{message.logs}}">{{message}}</p>
+    {% endfor %}
+    <div class="container" data-aos="fade-up">
+
+      <div class="row">
+
+        <div class="col-lg-8 entries">
+
+          {% for value in values %}
+
+          <h3 class="title">
+            {{value.title}}
+
+            {% if value.title is None %}
+              +255{{value.phone}}
+            {% endif %}
+          </h3>
+          <p>
+            {% if value.response == True %}
+              <span>Status: <strong style="color: green;">Accepted</strong></span> 
+            {% elif value.response == False %}
+            <span>Status: <strong style="color: red;">Missed</strong></span>
+            {% endif %}
+
+            <strong style="color: black;">{{value.content}} </strong> <br>
+            {{value.date_time}} 
+
+            {% if value.latitude is not None %}
+              <strong><a href="" style="float: right;">View Location</a></strong>
+            {% endif %}
+          </p>
+          <hr>
+
+          {% endfor %}
+
+        </div><!-- End blog entries list -->
+
+        <div class="col-lg-4">
+
+          <div class="sidebar">
+
+            <h3 class="sidebar-title">Activities</h3> <hr>
+            <div class="sidebar-item categories">
+              <ul>
+                <li><a href="{% url 'account' detail='reports' %}">Reports </a><span>({{no_of_reports}})</span></li>
+                <li><a href="{% url 'account' detail='calls' %}">Calls </a><span>({{no_of_calls}})</span></li>
+                <li><a href="{% url 'account' detail='messages' %}">Messages </a><span>({{no_of_messages}})</span></li>
+              </ul>
+            </div><!-- End sidebar categories-->
+
+          </div><!-- End sidebar -->
+        </div><!-- End blog sidebar -->
+      </div>
+    </div>
+  </section><!-- End Blog Section -->
+
+</main><!-- End #main -->
+
+{% endblock %}
+
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Contact</h2>
+      <p>Emergency Contact</p>
+    </header>
+
+
+    <div class="col-lg-3 col-md-6">
+      <div class="col-md-6">
+        <div class="info-box">
+          <i class="bi bi-geo-alt"></i>
+          <h3>Address</h3>
+          <p>A108 Adam Street,<br>New York, NY 535022</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="info-box">
+          <i class="bi bi-telephone"></i>
+          <h3>Call Us</h3>
+          <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="info-box">
+          <i class="bi bi-envelope"></i>
+          <h3>Email Us</h3>
+          <p>info@example.com<br>contact@example.com</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="info-box">
+          <i class="bi bi-clock"></i>
+          <h3>Open Hours</h3>
+          <p>Monday - Friday<br>9:00AM - 05:00PM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- End Contact Section -->
