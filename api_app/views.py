@@ -41,11 +41,13 @@ def usage(request):
         customer = Customer.objects.get(meter_number=request.data.get('device'))
         remaining_units = customer.units - request.data.get('units')
         remaining_units = round(remaining_units, 2)
+        
         if remaining_units < 0.0:
             remaining_units = 0.0
         
         if remaining_units < 0.0:
             remaining_units = 0.0
+
         customer.units = remaining_units
         customer.save()
         return Response(remaining_units)
