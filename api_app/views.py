@@ -44,7 +44,7 @@ def usage(request):
             remaining_units = 0.0
         customer.units = remaining_units
         customer.save()
-        return Response('SUCCESS', status=status.HTTP_202_ACCEPTED)
+        return Response(remaining_units)
     else:
         return Response('Meter number not registered', status=status.HTTP_404_NOT_FOUND)
 
