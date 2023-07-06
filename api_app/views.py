@@ -4,9 +4,6 @@ from rest_framework.response import Response
 from user_management.models import Driver
 from rest_framework import status
 from twilio.rest import Client
-import requests
-
-
 
 # Twillio sms credentials
 account_sid = 'AC272eb7b173b88e71f4df1a34e788c52f'
@@ -65,7 +62,7 @@ def addCase(request):
     serializer = CaseSerializer(data=case_data)
     if serializer.is_valid():
         driver_name = driver.username
-        message = f'Hello! {driver_name}. \nPhone use while driving is detected by the system. \nFine cost is Tsh.20,000/='
+        message = f'Hello! {driver_name}. \nThe system has detected that you are using a mobile while driving. \nFine cost is Tsh.30,000/='
 
         sms_respose = sendSMS(message)
         print(f'Message sent SID: {sms_respose}')
