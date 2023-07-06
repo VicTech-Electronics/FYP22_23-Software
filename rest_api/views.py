@@ -41,9 +41,9 @@ def payment(request):
             customer.amount = remained_balance
             customer.save()
             serializer.save()
-            return Response('SUCCESS')
+            return Response('[SUCCESS]')
         else:
-            return Response('Insufficient balance', status=status.HTTP_402_PAYMENT_REQUIRED)
+            return Response('[Insufficient balance]', status=status.HTTP_402_PAYMENT_REQUIRED)
     else:
-        return Response('FAIL', status=status.HTTP_400_BAD_REQUEST)
+        return Response('[FAIL]', status=status.HTTP_400_BAD_REQUEST)
     
