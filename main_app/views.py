@@ -34,7 +34,7 @@ def home(request):
     date = now.date()
     day = timezone.now().weekday()
     date_to_pass = timezone.make_aware(
-        datetime.datetime(now.year, now.month, now.day - 1)
+        datetime.datetime(now.year, now.month, now.day)
     )
 
     # Decralation of days of the week
