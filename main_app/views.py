@@ -1,210 +1,116 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from .decorators import unauthenticated
 from django.contrib import messages
 from .models import *
-from .decorators import *
-from django.utils import timezone
-import datetime
+import requests
+import json
 
-# Create your views here.
-@login_required(login_url='login')
-# @admin_only
-def home(request):
-    total_nurses = 0
-    total_request = 0
-    total_response = 0
-    available_nurses = 0
-    percentage_response = 0
-
-    ward_names = []
-    bed_numbers = []
-    request_times = []
-    response_times = []
-    response_status = []
-    patient_request = []
-    nurse_name = []
-    nurse_contact = []
-    time_in = []
-    nurse_attendence = []
-
-    # Time decralation
-    now = timezone.now()
-    date = now.date()
-    day = timezone.now().weekday()
-    date_to_pass = timezone.make_aware(
-        datetime.datetime(now.year, now.month, now.day - 1)
-    )
-
-    # Decralation of days of the week
-    if day == 0: weekday = 'Monday'
-    elif day == 1: weekday = 'Tuesday'
-    elif day == 2: weekday = 'Wednesday'
-    elif day == 3: weekday = 'Thursday'
-    elif day == 4: weekday = 'Friday'
-    elif day == 5: weekday = 'Saturday'
-    elif day == 6: weekday = 'Sunday'
-
-    # Query attendence
-    attendence = Attendence.objects.filter(time_in__gte = date_to_pass)
-    for attend in attendence:
-        available_nurses += 1
-
-        nurse_id = attend.nurse.pk
-        nurse = Nurse.objects.get(pk=nurse_id)
-        nurse_name.append(nurse.user.username)
-        nurse_contact.append(nurse.contacts)
-        time_in.append(attend.time_in)
-
-    # Query timetable
-    today = WeekDay.objects.get(day=weekday)
-    time_table = TimeTable.objects.get(day=today.pk)
-    for _ in time_table.nurse.all():
-        total_nurses += 1
-
-    # Query request
-    today_requests = Request.objects.filter(request_time__gte = date_to_pass)
-    for req in today_requests:
-        request_times.append(req.request_time)
-
-        if req.responded():
-            response_times.append(None)
-            response_status.append('pending')
-        else:
-            response_times.append(req.response_time)
-            response_status.append('responded')
-            total_response += 1
-            
-        total_request += 1
-        percentage_response = round((total_response / total_request) * 100, 2)
-
-    requested_device = Request.objects.values('device')
-    requested_device = Device.objects.filter(pk__in=requested_device)
-    for device in requested_device:
-        ward_names.append(device.ward_name)
-        bed_numbers.append(device.bed_number)
-
-    # Today details context
-    today_details = {
-        'date': date,
-        'available_nurses': available_nurses,
-        'total_nurses': total_nurses,
-        'total_request': total_request,
-        'percentage_response': percentage_response,
-    }
-
-    # Patient requests context
-    for ward, bed, req_t, res_t, status in zip(ward_names, bed_numbers, request_times, response_times, response_status):
-        data = {
-            'ward_name': ward,
-            'bed_number': bed,
-            'request_time': req_t,
-            'response_time': res_t,
-            'response_status': status,
-        }
-        patient_request.append(data)
-
-    # Nurse attendence context
-    for name, contact, t_in in zip(nurse_name, nurse_contact, time_in):
-        data = {
-            'nurse_name': name,
-            'nurse_contacts': contact,
-            'time_in': t_in,
-        }  
-        nurse_attendence.append(data)
-
-
-    # context to pass
-    context = {
-        'today_details': today_details,
-        'patient_request': patient_request,
-        'nurse_attendence': nurse_attendence,
-    }
-
-    return render(request, 'home.html', {'context': context})
-
+# Registrations functionality
 @unauthenticated
-def user_login(request):
+def registration(request):
+    if request.method == 'POST':
+        name = request.POST.get('username')
+        d_number = request.POST.get('device_number')
+        contacts = request.POST.get('contacts')
+        pass1 = request.POST.get('password')
+        pass2 = request.POST.get('confirm')
+
+
+        if pass1 == pass2:
+            if User.objects.filter(username=name).exists():
+                messages.info(request, 'Username alread exist')
+                return redirect('register')
+            if Device.objects.filter(device_number=d_number).exists():
+                messages.info(request, 'Device number alread exist')
+                return redirect('register')
+            else:
+                user = User.objects.create_user(username=name, password=pass1)
+                device = Device.objects.create(device_user=user, device_number=d_number, contacts=contacts)
+                user.save()
+                device.save()
+                messages.success(request, 'Device successful registerd for ' + name)
+                return redirect('login')
+        else:
+            messages.error(request, 'Error: Password missmatch')
+            return redirect('register')
+    else:
+        return render(request, 'register.html')
+
+# Login functionality
+@unauthenticated
+def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            _user = User.objects.get(username=username)
-            group = _user.groups.first().name
-
-            if group == 'nurse':
-                nurse = Nurse.objects.get(user = _user.pk)
-                attendence = Attendence.objects.create(nurse = nurse)
-                attendence.save()
-                messages.success(request, f'Hello {request.user}, Your data are submited successull')
-                logout(request)
-                return redirect('login')
-            else:
-                messages.success(request, f'Hello {request.user}, Login successfuly')
-                return redirect('home')
-                
+            return redirect('home')
         else:
-            messages.error(request, 'Invalid credentials')  
+            messages.error(request, 'Invalid credentials')
             return redirect('login')
     else:
         return render(request, 'login.html')
 
-@login_required(login_url='login')
-def user_logout(request):
+# Logout method
+def logout_user(request):
     logout(request)
-    messages.info(request, 'Loged out')
     return redirect('login')
 
+# Home page functionality
+@login_required(login_url='login')
+def home_page(request):
+    # Declatation of variable arrays to store datas
+    user_ids = []
+    username = []
+    device_number = []
+    heart_rate = []
+    body_temperature = []
+    request_data = []
+    contacts = []
+    
+    devices = Device.objects.filter(device_user = request.user.pk)
+    device_request = Request.objects.filter(device__in = devices)
+
+    for req in device_request:
+        user_ids.append(req.device.device_user.pk)
+        username.append(req.device.device_user.username)
+        device_number.append(req.device.device_number)
+        heart_rate.append(req.heart_rate)
+        body_temperature.append(req.body_temperature)
+        contacts.append(req.device.contacts)
+
+    for id, user, dev, rate, temp, conts in zip(
+        user_ids, username, device_number, heart_rate, body_temperature, contacts):
+        data = {
+            'id': id,
+            'username': user,
+            'device_number': dev,
+            'heart_rate': rate,
+            'body_temperature': temp,
+            'contacts': conts,
+        }
+        request_data.append(data)
+
+        print(f"Data to show: {request_data}")
+    return render(request, 'home.html', {'informations': request_data})
 
 @login_required(login_url='login')
-# @admin_only
-def registration(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        contact = request.POST.get('contact')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
+def location_manager(request, id):
+    print(f'ID: {id}')
+    ip = requests.get('https://api.ipify.org?format=json')
+    ip_address = json.loads(ip.text)
+    location = requests.get('http://ip-api.com/json/' + ip_address['ip'])
+    our_location = json.loads(location.text)
+    user = User.objects.get(pk=1)
 
-        if password1 == password2:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'Username alread exist')
-                return redirect('registration')
-            else:
-                user =  User.objects.create_user(username=username, password=password1)
-                nurse = Nurse.objects.create(user=user, contacts=contact)
-                user.save()
-                nurse.save()
-
-                group = Group.objects.get(name='nurse')
-                user.groups.add(group)
-
-                messages.success(request, f'{username}, Registered successfuly')
-                return redirect('registration')
-        else:
-            messages.error(request, 'Passwords mismatch')
-            return redirect('registration')
-    else:
-        return render(request, 'register.html')
-
-# @admin_only
-def device_registration(request):
-    if request.method == 'POST':
-        device_number = request.POST.get('device_number')
-        ward_name = request.POST.get('ward_name')
-        bed_number = request.POST.get('bed_number')
-
-        if Device.objects.filter(device_id=device_number).exists():
-            messages.info(request, 'Device number alread exist')
-            return redirect('device_reg')
-        else:
-            device = Device.objects.create(device_id=device_number, ward_name=ward_name, bed_number=bed_number)
-            device.save()
-
-            messages.success(request, f'Device {device_number}, registered successfuly')
-            return redirect('device_reg')
-    else:
-        return render(request, 'device_reg.html')
+    context = {
+        'location': our_location,
+        'user': user
+    }
+    return render(request, 'map.html', {'context': context})
