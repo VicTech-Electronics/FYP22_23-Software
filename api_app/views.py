@@ -3,7 +3,27 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from user_management.models import Driver
 from rest_framework import status
+from twilio.rest import Client
 import requests
+
+
+
+# Twillio sms credentials
+account_sid = 'AC272eb7b173b88e71f4df1a34e788c52f'
+auth_token = '683809024cc03125653bad91cd2b4355'
+client = Client(account_sid, auth_token)
+twilio_phone = '+15734982063'
+client_phone = '+255678401013'
+
+# Metho to send sms
+def sendSMS(sms):
+    message = client.messages.create(
+        body=sms,
+        from_=twilio_phone,
+        to=client_phone
+    )
+    return message.sid
+
 
 @api_view(['GET'])
 def documentation(request):
@@ -45,16 +65,10 @@ def addCase(request):
     serializer = CaseSerializer(data=case_data)
     if serializer.is_valid():
         driver_name = driver.username
-        phone_number = driver.contact
-        message = f'Hello {driver_name}. \n System detect you are using phone while Driving, Fine cost is Tsh.20000/='
-        sms_api_key = 'textbelt api key comes here'
+        message = f'Hello! {driver_name}. \nPhone use while driving is detected by the system. \nFine cost is Tsh.20,000/='
 
-        # sms_response = requests.post('https://textbelt.com/text',{
-        #     'phone': phone_number,
-        #     'message': message,
-        #     'key': sms_api_key
-        # })
-        # print(sms_response.json)
+        sms_respose = sendSMS(message)
+        print(f'Message sent SID: {sms_respose}')
 
         serializer.save()
         return Response('SUCCESS')
