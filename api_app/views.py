@@ -3,12 +3,25 @@ from rest_framework.response import Response
 from rest_framework import status
 from main_app.models import Request, Device
 from .models import RequestSerializer
+from twilio.rest import Client
 import requests
 
-# Useful variables
-phone_number = '+255-----'
-message_to_send = 'mesage comes here'
-api_key = 'textbelt api key'
+# Twillio sms credentials
+account_sid = 'AC272eb7b173b88e71f4df1a34e788c52f'
+auth_token = '683809024cc03125653bad91cd2b4355'
+client = Client(account_sid, auth_token)
+twilio_phone = '+15734982063'
+client_phone = '+255625961607'
+
+# Metho to send sms
+def sendSMS(sms):
+    message = client.messages.create(
+        body=sms,
+        from_=twilio_phone,
+        to=client_phone
+    )
+    return message.sid
+
 
 # Create your views here.
 @api_view(['GET'])
@@ -40,14 +53,14 @@ def req_endpoint(request):
             device = device_id
         )
         req_data.save()
+        
+        bed_number = str(device_id.bed_number)
+        ward_name = str(device_id.ward_name)
 
-        # Sending SMS request
-        req = requests.post('https://textbelt.com/text',{
-            'phone': phone_number,
-            'message': message_to_send,
-            'key': api_key,
-        })
-        print(req.json())
+        sms_to_send = f'INFORMATION: \nPatient need emergence care \nWard name: {ward_name}, \nBed number: {bed_number}, \nPlease take quick action'
+        sms_response = sendSMS(sms_to_send)
+        print(f'Message send SID: {sms_response}')
+
         return Response('SUCCESS', status=status.HTTP_202_ACCEPTED)
     else:
         return Response('Device not registered', status=status.HTTP_404_NOT_FOUND)
