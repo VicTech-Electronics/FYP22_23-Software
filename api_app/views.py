@@ -8,15 +8,15 @@ from rest_framework.decorators import api_view
 
 # Twillio sms credentials
 account_sid = 'AC272eb7b173b88e71f4df1a34e788c52f'
-auth_token = '75be54e4391128506cbab8f708583605'
+auth_token = '683809024cc03125653bad91cd2b4355'
 client = Client(account_sid, auth_token)
 twilio_phone = '+15734982063'
-client_phone = '+255687655560'
+client_phone = '+255712818281'
 
 min_rate = 60.0
-max_rate = 150.0
-min_temp = 25.0
-max_temp = 40.0
+max_rate = 120.0
+min_temp = 36.5
+max_temp = 37.5
 
 # Metho to send sms
 def sendSMS(sms):
