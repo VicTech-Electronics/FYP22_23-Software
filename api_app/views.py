@@ -76,6 +76,14 @@ def resp_endpoint(request):
         response_data = {
             'device': device_id.pk
         }
+
+        bed_number = str(device_id.bed_number)
+        ward_name = str(device_id.ward_name)
+        
+        sms_to_send = f'INFORMATION: \nRequest attended \nWard name: {ward_name}, \nBed number: {bed_number}'
+        sms_response = sendSMS(sms_to_send)
+        print(f'Message send SID: {sms_response}')
+
         serializer = RequestSerializer(device_request, data=response_data)
         if serializer.is_valid():
             serializer.save()
