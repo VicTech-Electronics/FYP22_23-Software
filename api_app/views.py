@@ -11,14 +11,15 @@ account_sid = 'AC272eb7b173b88e71f4df1a34e788c52f'
 auth_token = '683809024cc03125653bad91cd2b4355'
 client = Client(account_sid, auth_token)
 twilio_phone = '+15734982063'
-client_phone = '+255625961607'
+client_phone1 = '+255625961607'
+client_phone2 = '+255743599447'
 
 # Metho to send sms
-def sendSMS(sms):
+def sendSMS(sms, phone):
     message = client.messages.create(
         body=sms,
         from_=twilio_phone,
-        to=client_phone
+        to=phone
     )
     return message.sid
 
@@ -58,7 +59,9 @@ def req_endpoint(request):
         ward_name = str(device_id.ward_name)
 
         sms_to_send = f'INFORMATION: \nPatient need emergence care \nWard name: {ward_name}, \nBed number: {bed_number}, \nPlease take quick action'
-        sms_response = sendSMS(sms_to_send)
+        sms_response = sendSMS(sms_to_send, client_phone1)
+        print(f'Message send SID: {sms_response}')
+        sms_response = sendSMS(sms_to_send, client_phone2)
         print(f'Message send SID: {sms_response}')
 
         return Response('SUCCESS', status=status.HTTP_202_ACCEPTED)
@@ -81,7 +84,9 @@ def resp_endpoint(request):
         ward_name = str(device_id.ward_name)
         
         sms_to_send = f'INFORMATION: \nRequest attended \nWard name: {ward_name}, \nBed number: {bed_number}'
-        sms_response = sendSMS(sms_to_send)
+        sms_response = sendSMS(sms_to_send, client_phone1)
+        print(f'Message send SID: {sms_response}')
+        sms_response = sendSMS(sms_to_send, client_phone2)
         print(f'Message send SID: {sms_response}')
 
         serializer = RequestSerializer(device_request, data=response_data)
