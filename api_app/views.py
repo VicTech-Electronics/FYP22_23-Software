@@ -75,7 +75,7 @@ def resp_endpoint(request):
     print(f'Data req: {request.data}')
 
     if device_id is not None:
-        device_request = Request.objects.get(device=device_id)
+        # device_request = Request.objects.get(device=device_id)
         response_data = {
             'device': device_id.pk
         }
@@ -89,7 +89,7 @@ def resp_endpoint(request):
         sms_response = sendSMS(sms_to_send, client_phone2)
         print(f'Message send SID: {sms_response}')
 
-        serializer = RequestSerializer(device_request, data=response_data)
+        serializer = RequestSerializer(data=response_data)
         if serializer.is_valid():
             serializer.save()
             return Response('SUCCESS', status=status.HTTP_202_ACCEPTED)
