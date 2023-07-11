@@ -121,15 +121,12 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-# settings.py
 STATICFILES_DIRS = [
-    ('assets', '/path/to/your/static/assets/'),
-    # Exclude the problematic file or directory
-    # ('excluded', '/path/to/excluded/files/'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 django_heroku.settings(locals())
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
