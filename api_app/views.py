@@ -4,7 +4,23 @@ from .models import IndicatorSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from geopy.distance import geodesic
+from twilio.rest import Client
 from main_app.models import *
+
+# Twillio sms credentials
+account_sid = 'AC272eb7b173b88e71f4df1a34e788c52f'
+auth_token = '683809024cc03125653bad91cd2b4355'
+client = Client(account_sid, auth_token)
+twilio_phone = '+15734982063'
+
+# Metho to send sms
+def sendSMS(sms, phone):
+    message = client.messages.create(
+        body=sms,
+        from_=twilio_phone,
+        to=phone
+    )
+    return message.sid
 
 # Create your views here.
 @api_view(['GET'])
@@ -53,7 +69,7 @@ def create(request):
         print('Indicator saved')
         return redirect('classifier', vehicle.pk)
     else:
-        return Response('FAIL', status=status.HTTP_400_BAD_REQUEST)
+        return Response('[FAIL]', status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def confirm(request):
@@ -91,7 +107,7 @@ def confirm(request):
             longitude = hospital_location[1]
         )
     else:
-        return Response('Vehicle not registered', status=status.HTTP_404_NOT_FOUND)
+        return Response('[Vehicle not registered]', status=status.HTTP_404_NOT_FOUND)
 
     # Create accident infomation
     accident = Accident.objects.create(
@@ -101,8 +117,16 @@ def confirm(request):
         latitude = request.data.get('latitude'),
         longitude = request.data.get('longitude'),
     )
+
+    # Sending sms to the relatives of the vehicle users
+    sms_to_send = f'Accident detected for vehicle No: {vehicle.vehicle_number}, \nAccident location: \nLatitude: {indicators.latitude} \nLongitude: {indicators.longitude}, Information about the accident sent to {hospital.user.username}. Please take the action to help rescure activities'
+    sms_response = sendSMS(sms_to_send, vehicle.phone1)
+    print(f'Message send SID: {sms_response}')
+    sms_response = sendSMS(sms_to_send, vehicle.phone2)
+    print(f'Message send SID: {sms_response}')
+
     accident.save()
-    return Response('SUCCESS')
+    return Response('[SUCCESS]')
 
 
 @api_view(['DELETE'])
@@ -112,9 +136,8 @@ def cancel(request, vehicle_number):
         if Accident.objects.filter(vehicle = vehicle.pk).exists():
             accident = Accident.objects.get(vehicle = vehicle.pk, status=False)
             accident.delete()
-            return Response('CANCELED', status=status.HTTP_202_ACCEPTED)
+            return Response('[CANCELED]', status=status.HTTP_202_ACCEPTED)
         else:
-            return Response('No accident record for such a vehicle', status=status.HTTP_404_NOT_FOUND)
+            return Response('[No accident record for such a vehicle]', status=status.HTTP_404_NOT_FOUND)
     else:
-        return Response('Vehicle not registered', status=status.HTTP_404_NOT_FOUND)
-    
+        return Response('[Vehicle not registered]', status=status.HTTP_404_NOT_FOUND)
