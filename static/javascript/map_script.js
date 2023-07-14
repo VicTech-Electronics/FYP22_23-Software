@@ -19,7 +19,7 @@ function initMap() {
     
 
     var options = {
-        center: ofice_location,
+        center: location,
         zoom: 12
     };
 
