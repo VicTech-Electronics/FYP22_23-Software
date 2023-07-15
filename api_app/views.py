@@ -119,7 +119,9 @@ def confirm(request):
     )
 
     # Sending sms to the relatives of the vehicle users
-    sms_to_send = f'Accident detected for vehicle No: {vehicle.vehicle_number}, \nAccident location: \nLatitude: {indicators.latitude} \nLongitude: {indicators.longitude}, Information about the accident sent to {hospital.user.username}. Please take the action to help rescure activities'
+    latitude = request.data.get('latitude')
+    longitude = request.data.get('longitude')
+    sms_to_send = f'Accident detected for vehicle No: {vehicle.vehicle_number}, \nAccident location: \nLatitude: {latitude}, \nLongitude: {longitude}, \nLink: https://victonix-fyp.herokuapp.com \nInformation about the accident sent to {hospital.user.username}. Please take the action to help rescue activities'
     sms_response = sendSMS(sms_to_send, vehicle.phone1)
     print(f'Message send SID: {sms_response}')
     sms_response = sendSMS(sms_to_send, vehicle.phone2)

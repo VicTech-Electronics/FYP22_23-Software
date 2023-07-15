@@ -40,6 +40,9 @@ def classify(request, vehicle_id):
     sigmoid =  1 / (1 + np.exp(-weighted_sum))
     accident = np.round(sigmoid)
 
+    print(f'Sigmoid value: {sigmoid}')
+    print(f'Accident: {accident}')
+
     # If No accident detected, Clear the indicator and stop there
     if accident == 0 or sigmoid < 0.4:
         indicators.delete()
@@ -64,6 +67,9 @@ def classify(request, vehicle_id):
         
         distances.append(distance)
         hospital_locations.append(hospital_point)
+
+    print(f'Accident: {distances}')
+    print(f'Hospitals: {hospital_locations}')
     
     # Extract data obtained from the calculation above
     short_distance = min(distances)
@@ -87,7 +93,7 @@ def classify(request, vehicle_id):
     )
 
     # Sending sms to the relatives of the vehicle users
-    sms_to_send = f'Accident detected for vehicle No: {vehicle.vehicle_number}, \nAccident location: \nLatitude: {indicators.latitude} \nLongitude: {indicators.longitude}, Information about the accident sent to {hospital.user.username}. Please take the action to help rescure activities'
+    sms_to_send = f'Accident detected for vehicle No: {vehicle.vehicle_number}. \nAccident location: \nLatitude: {hospital.latitude}, \nLongitude: {hospital.longitude}, \nLink: https://victonix-fyp.herokuapp.com \nInformation about the accident sent to {hospital.user.username}. Please take the action to help rescue activities'
     sms_response = sendSMS(sms_to_send, vehicle.phone1)
     print(f'Message send SID: {sms_response}')
     sms_response = sendSMS(sms_to_send, vehicle.phone2)
