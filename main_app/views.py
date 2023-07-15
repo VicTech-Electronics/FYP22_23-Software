@@ -11,7 +11,7 @@ import json
 
 @login_required(login_url='login')
 def home(request):
-    context = Informations.objects.all()
+    context = Information.objects.all()
     return render(request, 'home.html', {'informations': context})
 
 
@@ -49,6 +49,6 @@ def details(request, info_id):
     location = requests.get('http://ip-api.com/json/' + ip_address['ip'])
     our_location = json.loads(location.text)
 
-    context = Informations.objects.get(pk=info_id)
+    context = Information.objects.get(pk=info_id)
 
     return render(request, 'details.html', {'our_location': our_location, 'informations': context})

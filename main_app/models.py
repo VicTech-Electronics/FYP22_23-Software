@@ -1,6 +1,6 @@
 from django.db import models
 
-class Informations(models.Model):
+class Information(models.Model):
     vehicle_number = models.CharField(max_length=10)
     latitude = models.FloatField()
     longitude = models.FloatField()

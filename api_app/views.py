@@ -48,14 +48,15 @@ def informations(request):
 
     latitude = request.data.get('latitude')
     longitude = request.data.get('longitude')
+    description = request.data.get('description')
 
-    sms_to_send = f'INFORMATION: \nAccident detected at. \nLatitude: {latitude} \nLongitude: {longitude} \nLink: https://tute-fyp22-23-c169130615c7.herokuapp.com'
+    sms_to_send = f'INFORMATION: \nAccident detected at: \nLatitude: {latitude}, \nLongitude: {longitude}, Descriptions: {description}. \nLink: https://tute-fyp22-23-c169130615c7.herokuapp.com'
     sms_response = sendSMS(sms_to_send)
     print(f"Message sent! SID: {sms_response}")
 
 
     if serializer.is_valid():
         serializer.save()
-        return Response('SUCCESS')
+        return Response('[SUCCESS]')
     else:
-        return Response('FAIL', status=status.HTTP_400_BAD_REQUEST)
+        return Response('[FAIL]', status=status.HTTP_400_BAD_REQUEST)
