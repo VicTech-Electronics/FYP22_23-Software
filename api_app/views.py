@@ -50,7 +50,7 @@ def informations(request):
     longitude = request.data.get('longitude')
     description = request.data.get('description')
 
-    sms_to_send = f'INFORMATION: \nAccident detected at: \nLatitude: {latitude}, \nLongitude: {longitude}, Descriptions: {description}. \nLink: https://tute-fyp22-23-c169130615c7.herokuapp.com'
+    sms_to_send = f'INFORMATION: \nAccident detected at: \nLatitude: {latitude}, \nLongitude: {longitude}, \nDescriptions: {description}. \nLink: https://tute-fyp22-23-c169130615c7.herokuapp.com'
     sms_response = sendSMS(sms_to_send)
     print(f"Message sent! SID: {sms_response}")
 
