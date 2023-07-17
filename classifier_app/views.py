@@ -33,7 +33,7 @@ def classify(request, vehicle_id):
         indicators.gyroscope,
         indicators.brake
     ])
-    weight = np.array([0.2, 0.3, -0.1, 0.4, -0.2]) # Weight obtained from the model wil come here
+    weight = np.array([0.8, 0.3, -0.5, 0.1, -0.2]) # Weight obtained from the model wil come here
 
     # Accident detection calculations
     weighted_sum = np.matmul(data, weight)
@@ -92,6 +92,9 @@ def classify(request, vehicle_id):
         longitude = indicators.longitude,
     )
 
+    accident.save()
+    indicators.delete() # Delete accident Indicator after being used
+
     # Sending sms to the relatives of the vehicle users
     sms_to_send = f'Accident detected for vehicle No: {vehicle.vehicle_number}. \nAccident location: \nLatitude: {hospital.latitude}, \nLongitude: {hospital.longitude}, \nLink: https://victonix-fyp.herokuapp.com \nInformation about the accident sent to {hospital.user.username}. Please take the action to help rescue activities'
     sms_response = sendSMS(sms_to_send, vehicle.phone1)
@@ -99,6 +102,4 @@ def classify(request, vehicle_id):
     sms_response = sendSMS(sms_to_send, vehicle.phone2)
     print(f'Message send SID: {sms_response}')
 
-    accident.save()
-    indicators.delete() # Delete accident Indicator after being used
     return Response('[Detected]')
