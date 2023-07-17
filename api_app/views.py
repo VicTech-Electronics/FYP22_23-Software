@@ -131,7 +131,7 @@ def confirm(request):
     return Response('[SUCCESS]')
 
 
-@api_view(['DELETE'])
+@api_view(['GET'])
 def cancel(request, vehicle_number):
     if Vehicle.objects.filter(vehicle_number = vehicle_number).exists():
         vehicle = Vehicle.objects.get(vehicle_number = vehicle_number)
