@@ -39,4 +39,4 @@ def examine(request):
     medical = Medical.objects.create(patient=patient, medical_examination=examination)
     medical.save()
 
-    return Response('SUCCESS')
+    return Response('SUCCESS', status=status.HTTP_200_OK)
