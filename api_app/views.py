@@ -20,7 +20,6 @@ def documentation(request):
             'description': 'Post the service transaction information'
         }
     ]
-
     return Response(info, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -34,8 +33,8 @@ def service(request):
         serializer = TransactionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response('SUCCESS')
+            return Response('[SUCCESS]')
         else:
-            return Response('FAIL')
+            return Response('[FAIL]')
     else:
-        return Response('Cardnumber not exist', status=status.HTTP_404_NOT_FOUND)
+        return Response('[Cardnumber not exist]', status=status.HTTP_404_NOT_FOUND)
