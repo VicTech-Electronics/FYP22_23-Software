@@ -35,7 +35,7 @@ def documentation(request):
         {
             'endpoint': '.../api/create',
             'method': 'POST',
-            'body': '{"vehicle": str, "flame": float, "smoke": float, "vibration": float, "gyroscope": float, "latitude": float, "longitude": float, "brake": boolean}',
+            'body': '{"vehicle": str, "flame": float, "smoke": float, "vib": float, "gyro": float, "lat": float, "long": float, "brake": boolean}',
             'description': 'Post the accident indicator information',
         },
         {
@@ -60,10 +60,21 @@ def create(request):
     if Vehicle.objects.filter(vehicle_number = vehicle_number).exists():
         vehicle = Vehicle.objects.get(vehicle_number = vehicle_number)
     else:
-        return Response('Vehicle not registered', status=status.HTTP_404_NOT_FOUND)
+        return Response('[Vehicle not registered]', status=status.HTTP_404_NOT_FOUND)
+    
 
-    request.data['vehicle'] = vehicle.pk
-    serializer = IndicatorSerializer(data=request.data)
+    indicator_data = {
+        'vehicle': vehicle.pk,
+        'flame': request.data.get('flame'),
+        'smoke': request.data.get('smoke'),
+        'vibration': request.data.get('vib'),
+        'gyroscope': request.data.get('gyro'),
+        'latitude': request.data.get('lat'),
+        'longitude': request.data.get('long'),
+        'brake': 0
+    }
+
+    serializer = IndicatorSerializer(data=indicator_data)
     if serializer.is_valid():
         serializer.save()
         print('Indicator saved')
