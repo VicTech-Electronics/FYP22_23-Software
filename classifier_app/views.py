@@ -40,7 +40,9 @@ def classify(request, vehicle_id):
     sigmoid =  1 / (1 + np.exp(-weighted_sum))
     accident = np.round(sigmoid)
 
+    print(f'Indicator b4: "{indicators}"')
     indicators.delete()
+    print(f'Indicator after: "{indicators}"')
 
     print(f'Sigmoid value: {sigmoid}')
     print(f'Accident: {accident}')
