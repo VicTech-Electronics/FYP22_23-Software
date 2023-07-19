@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from main_app.models import Customer
 from .models import TransactionSerializer
+from main_app.models import Transaction
 
 # Create your views here.
 @api_view(['GET'])
@@ -26,15 +27,17 @@ def documentation(request):
 def service(request):
     if Customer.objects.filter(card_number=request.data.get('customer')).exists():
         customer = Customer.objects.get(card_number=request.data.get('customer'))
-        request.data['customer'] = customer.pk
-        
         print(f'Data: {request.data}')
 
-        serializer = TransactionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
+        amount_to_pay = request.data.get('amount')
+        customer.amount -= amount_to_pay
+
+        if customer.amount >= 0:
+            customer.save()
+            transaction = Transaction.objects.create(customer=customer, details=request.data.get('details'), amount=request.data.get('amount'))
+            transaction.save()
             return Response('[SUCCESS]')
         else:
-            return Response('[FAIL]')
+            return Response('[LOW BALANCE]')
     else:
         return Response('[Cardnumber not exist]', status=status.HTTP_404_NOT_FOUND)

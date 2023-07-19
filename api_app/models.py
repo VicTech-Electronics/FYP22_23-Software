@@ -6,3 +6,4 @@ class TransactionSerializer(ModelSerializer):
     class Meta:
         model = Transaction
         fields = ['customer', 'details', 'amount']
+
