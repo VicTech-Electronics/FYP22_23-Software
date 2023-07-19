@@ -34,18 +34,19 @@ def classify(request, vehicle_id):
         indicators.brake
     ])
     weight = np.array([0.8, 0.3, -0.5, 0.1, -0.2]) # Weight obtained from the model wil come here
-
+    
     # Accident detection calculations
     weighted_sum = np.matmul(data, weight)
     sigmoid =  1 / (1 + np.exp(-weighted_sum))
     accident = np.round(sigmoid)
 
+    indicators.delete()
+
     print(f'Sigmoid value: {sigmoid}')
     print(f'Accident: {accident}')
 
     # If No accident detected, Clear the indicator and stop there
-    if accident == 0 or sigmoid < 0.4:
-        indicators.delete()
+    if accident == 0:
         return Response('[Not detected]')
     
     # Variable to store data for Accident Information after being detected
@@ -93,8 +94,6 @@ def classify(request, vehicle_id):
     )
 
     accident.save()
-    indicators.delete() # Delete accident Indicator after being used
-
     # Sending sms to the relatives of the vehicle users
     sms_to_send = f'Accident detected for vehicle No: {vehicle.vehicle_number}. \nAccident location: \nLatitude: {hospital.latitude}, \nLongitude: {hospital.longitude}, \nLink: https://victonix-fyp.herokuapp.com \nInformation about the accident sent to {hospital.user.username}. Please take the action to help rescue activities'
     sms_response = sendSMS(sms_to_send, vehicle.phone1)
