@@ -1,0 +1,64 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+}
+
+#inputSelection {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.addButton {
+    margin-left: 10px;
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.deleteButton {
+    margin-left: 10px;
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* Messages styles */
+.debug_msg {
+    color: blue;
+}
+
+.info_msg {
+    color: maroon;
+}
+
+.success_msg {
+    color: green;
+}
+
+.warning_msg {
+    color: orange;
+}
+
+.error_msg {
+    color: red;
+}

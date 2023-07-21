@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add and Delete Buttons</title>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <form action="{% url 'main_page' %}" method="post">
+        {% csrf_token %}
+        <div class="container">
+            <input type="text" id="inputField" placeholder="Number" name="number" required>
+            <select name="type" id="inputSelection">
+                <option value="plate">Plate</option>
+                <option value="card">Card</option>
+            </select>
+            <button class="addButton" name="action" value="add">Add</button>
+            <button class="deleteButton" name="action" value="delete">Delete</button>
+        </div>
+        {% for message in messages %}
+            <p class="{{message.tags}}">{{message}}</p>
+        {% endfor %}
+    </form>
+</body>
+</html>
